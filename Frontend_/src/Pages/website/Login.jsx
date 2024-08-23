@@ -1,26 +1,81 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import PageTitle from './include/PageTitle'
+import React, { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../Utils/Axios";
+import Footer from "./include/Footer";
+import { Store } from "../../Utils/Store";
+import PageTitle from './include/PageTitle';
 
 function Login({ title }) {
+
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [islawyer] = useState(false);  
+    const navigate = useNavigate();
+
+    const { state, dispatch } = useContext(Store);
+    const { UserInfo } = state;
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const userData = { email, password };
+            const response = await api.post("/auth/login", userData);
+
+            if (response.data.success) {
+                const userType = response.data.userType;
+                const userDocument = response.data.userDocument._doc; // Access the actual data under _doc
+
+                // Dispatching the extracted user data
+                dispatch({
+                    type: "LawyerLogin",
+                    payload: userDocument, // Store only the necessary data
+                });
+
+                // Storing the extracted user data in local storage
+                localStorage.setItem("UserInfo", JSON.stringify(userDocument));
+
+                if (userType === "user") {
+                    toast.success("Login Successful as a User");
+                    navigate("/attorneys");
+                } else if (userType === "lawyer") {
+                    toast.success("Login Successful as a Lawyer");
+                    navigate("/");
+                }
+            } else {
+                toast.error(response.data.message);
+            }
+        } catch (error) {
+            if (error.response && error.response.data && error.response.data.errors) {
+                const validationErrors = error.response.data.errors;
+
+                validationErrors.forEach((error) => {
+                    toast.error(error.msg);
+                });
+            } else if (error.response && error.response.data && error.response.data.message) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("An error occurred during login.");
+            }
+        }
+    };
+
     return (
         <>
             <Helmet><title>{title}</title></Helmet>
-
-
-
             <PageTitle title={title} />
-
-
             <div className="container">
-                <div className="row mt-5 mb-5" style={{justifyContent:"center"}}>
-                    <div className="col-lg-8  justify-content-center col-md-10 col-sm-12" >
+                <div className="row mt-5 mb-5" style={{ justifyContent: "center" }}>
+                    <div className="col-lg-8 justify-content-center col-md-10 col-sm-12">
                         <div className="card shadow-sm p-4 mx-auto">
                             <h3 className="card-title text-center mb-4">Sign In</h3>
-                            <form>
+                            <form className="login" id="login_form" onSubmit={handleSubmit}>
                                 <div className="form-group">
                                     <label htmlFor="exampleInputEmail1">Email address</label>
                                     <input
+                                        onChange={(e) => setEmail(e.target.value)}
                                         type="email"
                                         className="form-control"
                                         id="exampleInputEmail1"
@@ -34,6 +89,7 @@ function Login({ title }) {
                                 <div className="form-group mt-4">
                                     <label htmlFor="exampleInputPassword1">Password</label>
                                     <input
+                                        onChange={(e) => setPassword(e.target.value)}
                                         type="password"
                                         className="form-control"
                                         id="exampleInputPassword1"
@@ -46,22 +102,27 @@ function Login({ title }) {
                                         Remember me
                                     </label>
                                 </div>
-                                <div style={{marginBottom:"30px"}}>
-                                <button type="submit" className="btn btn-primary w-100 mt-4">
-                                    Submit
-                                </button>
+                                <div style={{ marginBottom: "30px" }}>
+                                    <button type="submit" className="btn btn-primary w-100 mt-4">
+                                        Submit
+                                    </button>
                                 </div>
+                                <div className="mt-4 text-center">
+                                <p style={{ display: "inline-block" }}>
+                                    create new account?{" "}
+                                </p>
+                                <Link to="/registration" style={{ display: "inline-block" }}>
+                                    Sign up!
+                                </Link>
+                            </div>
                             </form>
+                            
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
         </>
-    )
+    );
 }
 
-export default Login
+export default Login;

@@ -9,11 +9,13 @@ import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
+import Registration from "./Pages/website/Registration"; // Import Registration component
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
 import Users from "./Pages/admin/UsersList";
 import AttorneysList from "./Pages/admin/AttorneysList";
 import TransactionList from "./Pages/admin/TransactionList";
+
 function App() {
   return (
     <>
@@ -33,12 +35,9 @@ function App() {
           <Route path='/attorneys' element={<WebsiteBase><Attorneys title="Attorneys"/></WebsiteBase>} />
           <Route path='/attorney-details/:name' element={<WebsiteBase><AttorneyDetails title="Attorney Details"/></WebsiteBase>} />
           <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
+          <Route path='/registration' element={<WebsiteBase><Registration title="Registration"/></WebsiteBase>} /> {/* Corrected to use Registration component */}
+
           <Route path='*' element={<PageNotFound404 />} />
-
-
-          {/* User Routes */}
-
-   
 
           {/* Admin Routes */}
           <Route path='/dashboard' element={<Dashboard><Main/></Dashboard>} />
