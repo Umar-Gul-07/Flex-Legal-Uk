@@ -19,33 +19,16 @@ function About({ title }) {
                     <div className="about-desc">
                         <div className="row">
                             <div className="col-md-7">
-                                <h3>Fusce consequat elit eget</h3>
+                                <h3>Discover Our Legal Network</h3>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-                                    tincidunt, lorem nec posuere venenatis, nisi tellus rutrum ante,
-                                    quis faucibus orci turpis in purus. Morbi quis facilisis massa, ac
-                                    finibus quam. Maecenas luctus tempor eros, et lacinia eros venenatis
-                                    a. Aliquam erat volutpat. Praesent aliquet dapibus lacus ut iaculis.
-                                    Nulla tempor lorem a enim commodo facilisis. Quisque feugiat, nisi
-                                    in volutpat ornare, orci nunc dictum risus, non mattis justo erat
-                                    nec ante. Quisque feugiat ligula metus, et efficitur augue commodo
-                                    ultrices. <br />
+                                    Welcome to our network, where we connect you with a broad range of experienced legal professionals. Our platform offers tailored solutions to meet your unique legal needs, ensuring you receive expert advice and dedicated support. Whether you're seeking assistance with personal matters or complex legal issues, our network is here to help. Explore the benefits of joining our network and find the right legal expert for you. <br />
                                     <br />
-                                    Curabitur nunc tellus, dapibus eu porttitor at, dictum vitae lacus.
-                                    Nam euismod venenatis magna, vulputate pharetra neque porttitor
-                                    quis. In lectus lorem, auctor ut posuere et, faucibus eu quam.
-                                    Nullam ut lacus in neque malesuada placerat. Aenean convallis
-                                    aliquam ipsum quis lobortis. Sed eleifend, est nec lacinia dapibus,
-                                    magna ligula laoreet quam, dictum porta lectus dui quis dolor. Donec
-                                    ac est in ex mattis luctus. Vivamus congue rhoncus erat tempus
-                                    imperdiet. Maecenas eu purus interdum, pretium libero eu, rutrum
-                                    sapien. Nam ullamcorper euismod nunc, non eleifend risus fermentum
-                                    quis. Curabitur nec interdum est.
+                                    With a commitment to excellence, we strive to provide a seamless experience from start to finish. Our team is dedicated to ensuring that you have access to top-tier legal services, backed by our extensive network of professionals. Discover how we can support your legal journey and help you achieve the best possible outcomes.
                                 </p>
                             </div>
                             <div className="col-md-5">
                                 <div className="postimg">
-                                    <img src="/assets/website/images/about-img.jpg" alt='about-img'/>
+                                    <img src="/assets/website/images/about-img.jpg" alt="Legal Network Overview" />
                                 </div>
                             </div>
                         </div>
