@@ -10,4 +10,17 @@ const ContactInfo = {
 }
 
 
-export { ContactInfo }
+const teamMembers = [
+    { name: "Alice Smith", title: "Project Manager" },
+    { name: "Bob Johnson", title: "Software Engineer" },
+    { name: "Catherine Lee", title: "UX Designer" },
+    { name: "David Brown", title: "Data Analyst" },
+    { name: "Emily Davis", title: "Marketing Specialist" },
+    { name: "Frank Wilson", title: "Quality Assurance" },
+    { name: "Grace Taylor", title: "Content Strategist" },
+    { name: "Henry Moore", title: "DevOps Engineer" },
+   
+];
+
+
+export { ContactInfo, teamMembers}

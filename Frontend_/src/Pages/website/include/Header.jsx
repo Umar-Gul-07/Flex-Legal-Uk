@@ -4,8 +4,8 @@ import { Store } from '../../../Utils/Store';
 
 
 function Header() {
-  const {state} = useContext(Store)
-  const {ContactInfo} = state
+  const { state } = useContext(Store)
+  const { ContactInfo } = state
   const location = useLocation();
   return (
 
@@ -38,16 +38,21 @@ function Header() {
               <li className={location.pathname === '/' ? 'active' : ''}>
                 <Link to="/">Home</Link>
               </li>
-              <li className={location.pathname === '/about' ? 'active' : ''}>
-                <Link to="/about">About</Link>
+              <li className={location.pathname === '/attorneys' ? 'active' : ''}>
+                <Link to="/attorneys">Attorneys</Link>
               </li>
+
               <li className={location.pathname === '/services' ? 'active' : ''}>
                 <Link to="/services">Services</Link>
+              </li>
+              <li className={location.pathname === '/about' ? 'active' : ''}>
+                <Link to="/about">About</Link>
               </li>
               <li className={location.pathname === '/contact' ? 'active' : ''}>
                 <Link to="/contact">Contact</Link>
               </li>
-              <li className={location.pathname === '/contact' ? 'active' : ''}>
+
+              <li className={location.pathname === '/login' ? 'active' : ''}>
                 <Link to="/login">Login</Link>
               </li>
               <li>

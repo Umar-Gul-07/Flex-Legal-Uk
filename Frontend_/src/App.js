@@ -9,6 +9,8 @@ import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
+import Attorneys from "./Pages/website/Attorneys";
+import AttorneyDetails from "./Pages/website/AttorneyDetails";
 function App() {
   return (
     <>
@@ -25,6 +27,8 @@ function App() {
           <Route path='/about' element={<WebsiteBase><About title="About Us"/></WebsiteBase>} />
           <Route path='/services' element={<WebsiteBase><Services title="Services"/></WebsiteBase>} />
           <Route path='/contact' element={<WebsiteBase><Contact title="Contact Us"/></WebsiteBase>} />
+          <Route path='/attorneys' element={<WebsiteBase><Attorneys title="Attorneys"/></WebsiteBase>} />
+          <Route path='/attorney-details/:name' element={<WebsiteBase><AttorneyDetails title="Attorney Details"/></WebsiteBase>} />
           <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
           <Route path='*' element={<PageNotFound404 />} />
 
