@@ -1,15 +1,18 @@
 import { Helmet } from "react-helmet"
 import PageTitle from "./include/PageTitle"
+import { useContext } from "react"
+import { Store } from "../../Utils/Store"
 
-function Contact({title}) {
-
+function Contact({ title }) {
+    const { state } = useContext(Store)
+    const { ContactInfo } = state
     return (
         <>
-        <Helmet><title>{title}</title></Helmet>
+            <Helmet><title>{title}</title></Helmet>
 
 
-        
-            <PageTitle  title={title}/>
+
+            <PageTitle title={title} />
 
 
 
@@ -19,49 +22,39 @@ function Contact({title}) {
                     <div className="section-title">
                         <h3>Get Free Quote</h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet,
-                            massa ac ornare feugiat, nunc dui auctor ipsum, sed posuere eros sapien
-                            id quam.
+                            Looking for a personalized estimate? Our team is here to provide you with a free quote tailored to your needs. Contact us today, and let us help you find the best solution.
                         </p>
                     </div>
                     <div className="row">
                         <div className="col-md-4">
                             <div className="contact-now">
                                 <div className="contact">
-                                    {" "}
                                     <span>
                                         <i className="fa fa-home" />
                                     </span>
                                     <div className="information">
-                                        {" "}
                                         <strong>Address:</strong>
-                                        <p>8500 lorem, New Ispum, Dolor amet sit 12301</p>
+                                        <p>{ContactInfo.address}</p>
                                     </div>
                                 </div>
                                 {/* Contact Info */}
                                 <div className="contact">
-                                    {" "}
                                     <span>
                                         <i className="fa fa-envelope" />
                                     </span>
                                     <div className="information">
-                                        {" "}
                                         <strong>Email Address:</strong>
-                                        <p>investigate@your-site.com</p>
-                                        <p>investigate@your-site.com</p>
+                                        <p>{ContactInfo.contact_email}</p>
                                     </div>
                                 </div>
                                 {/* Contact Info */}
                                 <div className="contact">
-                                    {" "}
                                     <span>
                                         <i className="fa fa-phone" />
                                     </span>
                                     <div className="information">
-                                        {" "}
                                         <strong>Phone No:</strong>
-                                        <p>+12 345 67 09</p>
-                                        <p>+12 345 67 09</p>
+                                        <p>{ContactInfo.contact_phone}</p>
                                     </div>
                                 </div>
                                 {/* Contact Info */}
@@ -99,7 +92,7 @@ function Contact({title}) {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            name="phone"
+                                            name="address"
                                             placeholder="Address"
                                         />
                                     </div>
@@ -128,6 +121,7 @@ function Contact({title}) {
                     </div>
                 </div>
             </div>
+
 
 
         </>

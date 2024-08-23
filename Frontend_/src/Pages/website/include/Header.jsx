@@ -47,6 +47,9 @@ function Header() {
               <li className={location.pathname === '/contact' ? 'active' : ''}>
                 <Link to="/contact">Contact</Link>
               </li>
+              <li className={location.pathname === '/contact' ? 'active' : ''}>
+                <Link to="/login">Login</Link>
+              </li>
               <li>
                 <span className="calltxt">
                   <i className="fa fa-phone" aria-hidden="true" /> {ContactInfo.contact_phone}

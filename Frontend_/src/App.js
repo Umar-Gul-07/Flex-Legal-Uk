@@ -8,6 +8,7 @@ import Home from "./Pages/website/Home";
 import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
+import Login from "./Pages/website/Login";
 function App() {
   return (
     <>
@@ -24,6 +25,7 @@ function App() {
           <Route path='/about' element={<WebsiteBase><About title="About Us"/></WebsiteBase>} />
           <Route path='/services' element={<WebsiteBase><Services title="Services"/></WebsiteBase>} />
           <Route path='/contact' element={<WebsiteBase><Contact title="Contact Us"/></WebsiteBase>} />
+          <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
           <Route path='*' element={<PageNotFound404 />} />
 
    
