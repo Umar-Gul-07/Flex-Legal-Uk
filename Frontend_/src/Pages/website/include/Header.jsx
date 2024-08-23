@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { Store } from '../../../Utils/Store';
 
 
 function Header() {
+  const {state} = useContext(Store)
+  const {ContactInfo} = state
   const location = useLocation();
   return (
 
@@ -46,7 +49,7 @@ function Header() {
               </li>
               <li>
                 <span className="calltxt">
-                  <i className="fa fa-phone" aria-hidden="true" /> 123 456 7890
+                  <i className="fa fa-phone" aria-hidden="true" /> {ContactInfo.contact_phone}
                 </span>
               </li>
             </ul>

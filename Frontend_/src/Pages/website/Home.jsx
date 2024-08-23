@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom"
 import Team from "./include/Team"
 import { Helmet } from "react-helmet"
+import { useContext } from "react"
+import { Store } from "../../Utils/Store"
 
 function Home() {
+    const { state } = useContext(Store)
+    const { ContactInfo } = state
     return (
         <>
             <Helmet><title>Home</title></Helmet>
@@ -24,14 +28,12 @@ function Home() {
                                 <span className="wrap">Div</span>
                             </Link>{" "}
                         </h3>
-                        <h1>Welcome to Lawyer &amp; Attorney Template!</h1>
+                        <h1>Welcome to Lawyer Network</h1>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
-                            suscipit mollis mauris, nec ullamcorper leo congue et. Nunc vulputate,
-                            felis sed dictum sagittis, lorem enim auctor diam, ac laoreet tortor
-                            ipsum ac sem.
+                            Access a trusted network of skilled lawyers ready to assist with your legal needs, from divorce to defamation. Whether you need advice or representation, our platform connects you with professionals who can guide you through every step. Find the right lawyer, right when you need them.
                         </p>
-                        <Link to="#about" className="btn btn-default section-btn">
+
+                        <Link to="/contact" className="btn btn-default section-btn">
                             Get Started
                         </Link>{" "}
                     </div>
@@ -44,71 +46,59 @@ function Home() {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4">
-                            <img src="/assets/website/images/about-us.jpg" alt="" />
+                            <img src="/assets/website/images/about-us.jpg" alt="About Us" />
                         </div>
                         <div className="col-md-8">
                             <div className="stcontent">
-                                {/* title start */}
                                 <div className="section-title">
                                     <h3>
-                                        Welcome to <span>Lawyer &amp; Attorney</span>
+                                        Welcome to <span>Lawyer &amp; Attorney Network</span>
                                     </h3>
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                                        aliquet, massa ac ornare feugiat, nunc dui auctor ipsum, sed
-                                        posuere eros sapien id quam.{" "}
+                                        Our platform connects you with experienced lawyers who are dedicated to protecting your rights and ensuring justice. Whether you need legal advice or representation, our network is here to provide the support you need.
                                     </p>
                                 </div>
-                                {/* title end */}
                                 <ul className="howlist">
-                                    {/*step 1*/}
                                     <li>
                                         <div className="howbox">
                                             <div className="iconcircle">
-                                                <i className="fa fa-university" aria-hidden="true" />
+                                                <i className="fa fa-university" aria-hidden="true"></i>
                                             </div>
                                             <h4>Protect Your Rights</h4>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                                do eiusmod tempor incidid ut labore
+                                                Find a lawyer who will stand up for your rights, providing expert guidance and representation tailored to your unique situation.
                                             </p>
                                         </div>
                                     </li>
-                                    {/*step 1 end*/}
-                                    {/*step 2*/}
                                     <li>
                                         <div className="howbox">
                                             <div className="iconcircle">
-                                                <i className="fa fa-handshake-o" aria-hidden="true" />
+                                                <i className="fa fa-handshake-o" aria-hidden="true"></i>
                                             </div>
-                                            <h4>Medical Treatment</h4>
+                                            <h4>Get the Right Legal Help</h4>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                                do eiusmod tempor incidid ut labore
+                                                Whether you're dealing with a personal injury or a complex legal matter, our network connects you with professionals who specialize in your needs.
                                             </p>
                                         </div>
                                     </li>
-                                    {/*step 2 end*/}
-                                    {/*step 3*/}
                                     <li>
                                         <div className="howbox">
                                             <div className="iconcircle">
-                                                <i className="fa fa-male" aria-hidden="true" />
+                                                <i className="fa fa-male" aria-hidden="true"></i>
                                             </div>
                                             <h4>We Fight for Justice</h4>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                                                do eiusmod tempor incidid ut labore
+                                                Our network is committed to justice, ensuring that every client receives fair and dedicated legal support from start to finish.
                                             </p>
                                         </div>
                                     </li>
-                                    {/*step 3 end*/}
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
 
 
 
@@ -120,9 +110,7 @@ function Home() {
                             Practice <span>Areas</span>
                         </h3>
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce aliquet,
-                            massa ac ornare feugiat, nunc dui auctor ipsum, sed posuere eros sapien
-                            id quam.
+                            Explore our wide range of legal services designed to protect your rights and provide comprehensive support for your unique situation. Our network of expert lawyers specializes in various fields to ensure you receive the best possible guidance.
                         </p>
                     </div>
                     <div className="row">
@@ -134,8 +122,7 @@ function Home() {
                                 </div>
                                 <h4>Divorce Law</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                    pellentesque.
+                                    Expert guidance and support through every step of your divorce process.
                                 </p>
                             </div>
                         </div>
@@ -147,8 +134,7 @@ function Home() {
                                 </div>
                                 <h4>Litigation</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                    pellentesque.
+                                    Strong representation in all forms of civil and criminal litigation.
                                 </p>
                             </div>
                         </div>
@@ -160,8 +146,7 @@ function Home() {
                                 </div>
                                 <h4>Accident Law</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                    pellentesque.
+                                    Helping you secure fair compensation after an accident or injury.
                                 </p>
                             </div>
                         </div>
@@ -173,8 +158,7 @@ function Home() {
                                 </div>
                                 <h4>Drug Law</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                    pellentesque.
+                                    Skilled defense and advice on drug-related legal matters.
                                 </p>
                             </div>
                         </div>
@@ -186,8 +170,7 @@ function Home() {
                                 </div>
                                 <h4>Personal Law</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                    pellentesque.
+                                    Professional legal assistance for your personal and family needs.
                                 </p>
                             </div>
                         </div>
@@ -199,8 +182,7 @@ function Home() {
                                 </div>
                                 <h4>Criminal Law</h4>
                                 <p>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                                    pellentesque.
+                                    Dedicated criminal defense to protect your rights and future.
                                 </p>
                             </div>
                         </div>
@@ -216,20 +198,20 @@ function Home() {
                         <h3>Personal Injury Lawyers</h3>
                     </div>
                     <div className="ctoggle">
+                        {/* Updated content for the description */}
                         <p>
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                            tincidunt mauris est, in faucibus dui viverra et. Aliquam finibus
-                            vestibulum elit, at pharetra nisl congue vel. Nunc pretium posuere justo
-                            pretium fringilla. Sed volutpat risus non rhoncus convallis. Sed
-                            fermentum est at hendrerit pellentesque. Mauris nec leo euismod,
-                            sagittis mauris in, posuere est...
+                            Our personal injury lawyers are dedicated to helping you recover the compensation you deserve.
+                            Whether it's an accident, medical malpractice, or workplace injury, we're here to protect your rights
+                            and guide you through the legal process with compassion and expertise.
                         </p>
+                        {/* Link for reading more */}
                         <Link to="#" className="readmore">
                             Read More <i className="fa fa-long-arrow-right" aria-hidden="true" />
-                        </Link>{" "}
+                        </Link>
                     </div>
                 </div>
             </div>
+
 
 
 
@@ -239,16 +221,19 @@ function Home() {
 
             <div className="taglinewrap">
                 <div className="container">
-                    <h2>Call Today For A FREE Consultation</h2>
+                    <h2>Call Today for a Free Consultation</h2>
+                    {/* Updated content for the description */}
                     <p>
-                        Sed sed neque laoreet, rhoncus libero id, pharetra est. Sed ut neque est.
-                        Maecenas et est sagittis, mollis risus dignissim, mattis dolor.{" "}
+                        Get in touch with us today for a free consultation and let our expert lawyers help you navigate your legal challenges.
+                        We provide personalized attention and dedicated support to ensure your rights are protected.
                     </p>
-                    <Link to="#">
+                    {/* Link for contacting */}
+                    <Link to="/contact">
                         <i className="fa fa-phone" aria-hidden="true" /> Contact Us Now
-                    </Link>{" "}
+                    </Link>
                 </div>
             </div>
+
 
 
         </>
