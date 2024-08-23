@@ -14,7 +14,7 @@ const Main = () => {
                                 <div className="col-lg-4">
                                     <div className="d-flex">
                                         <div className="flex-shrink-0 me-3">
-                                            <img src="assets/images/users/avatar-1.jpg" alt="" className="avatar-md rounded-circle img-thumbnail" />
+                                            <img src="/assets/admin/images/users/avatar-1.jpg" alt="" className="avatar-md rounded-circle img-thumbnail" />
                                         </div>
                                         <div className="flex-grow-1 align-self-center">
                                             <div className="text-muted">

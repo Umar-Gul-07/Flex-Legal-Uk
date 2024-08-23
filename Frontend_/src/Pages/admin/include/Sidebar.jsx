@@ -29,28 +29,34 @@ const Sidebar = () => {
                                     <div className="simplebar-content" style={{ padding: 0 }}>
                                         {/*- Sidemenu */}
                                         <div id="sidebar-menu" className="mm-active">
-                                            <p className="mb-2 ml-4"><b>User Name DASHBOARD</b></p>
+                                            <p className="mb-2 ml-5" style={{marginLeft:"20px",color:"red"}}><b>Admin</b></p>
 
                                             <ul className="metismenu list-unstyled mm-show" id="side-menu">
                                                 <li className='menu-title' id='key-menu'>
                                                     Sidebar
                                                 </li>
                                                 <li>
-                                                    <Link to="/admin/dashboard" className="waves-effect">
+                                                    <Link to="/dashboard" className="waves-effect">
                                                         <i className="bx bx-home" />
                                                         <span key="t-chat">Profile</span>
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/admin/all/ideas" className="waves-effect">
-                                                        <i className="bx bx-bulb" />
-                                                        <span key="t-chat">Ideas</span>
+                                                    <Link to="/users-list" className="waves-effect">
+                                                        <i className="bx bx-user" />
+                                                        <span key="t-chat">Users</span>
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/admin/contracts" className="waves-effect">
+                                                    <Link to="/attorneys-list" className="waves-effect">
                                                         <i className="bx bx-book" />
-                                                        <span key="t-chat">Contracts</span>
+                                                        <span key="t-chat">Attorneys</span>
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/transactions-list" className="waves-effect">
+                                                        <i className="bx bx-transfer" />
+                                                        <span key="t-chat">Transaction</span>
                                                     </Link>
                                                 </li>
                                                 <li onClick={handleLogout}>

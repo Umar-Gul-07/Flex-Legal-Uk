@@ -17,7 +17,7 @@ function AttorneyDetails({ title }) {
                     <div className="attorneytop">
                         <div className="row">
                             <div className="col-md-4 col-sm-4">
-                                <img src="images/team/team-img1.jpg" className="lawimg" alt="" />
+                                <img src="/assets/website/images/team/team-img1.jpg" className="lawimg" alt="" />
                             </div>
                             <div className="col-md-8 col-sm-8">
                                 <h2>JOHN DOE</h2>
@@ -45,44 +45,7 @@ function AttorneyDetails({ title }) {
                                         <a href="#">www.Lawyer &amp; Attorney.com</a>
                                     </li>
                                 </ul>
-                                <ul className="list-inline social">
-                                    <li>
-                                        {" "}
-                                        <a href="javascript:void(0);">
-                                            <i className="fa fa-twitter" aria-hidden="true" />
-                                        </a>{" "}
-                                    </li>
-                                    <li>
-                                        {" "}
-                                        <a href="javascript:void(0);">
-                                            <i className="fa fa-facebook" aria-hidden="true" />
-                                        </a>{" "}
-                                    </li>
-                                    <li>
-                                        {" "}
-                                        <a href="javascript:void(0);">
-                                            <i className="fa fa-linkedin" aria-hidden="true" />
-                                        </a>{" "}
-                                    </li>
-                                    <li>
-                                        {" "}
-                                        <a href="javascript:void(0);">
-                                            <i className="fa fa-pinterest-p" aria-hidden="true" />
-                                        </a>{" "}
-                                    </li>
-                                    <li>
-                                        {" "}
-                                        <a href="javascript:void(0);">
-                                            <i className="fa fa-youtube" aria-hidden="true" />
-                                        </a>{" "}
-                                    </li>
-                                    <li>
-                                        {" "}
-                                        <a href="javascript:void(0);">
-                                            <i className="fa fa-google-plus" aria-hidden="true" />
-                                        </a>{" "}
-                                    </li>
-                                </ul>
+                            
                                 <div className="attorneydetail">
                                     <h1>Personal Statement</h1>
                                     <p>
@@ -133,64 +96,7 @@ function AttorneyDetails({ title }) {
                             </div>
                         </div>
                     </div>
-                    <div className="attorneyContact">
-                        <h3>Contact Jhon</h3>
-                        <div className="contact-form">
-                            <form id="contact-form" className="row">
-                                <div className="col-md-4 col-sm-6">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="name"
-                                        placeholder="Name"
-                                    />
-                                </div>
-                                <div className="col-md-4 col-sm-6">
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        name="email"
-                                        placeholder="Email"
-                                    />
-                                </div>
-                                <div className="col-md-4 col-sm-12">
-                                    <input
-                                        type="tel"
-                                        className="form-control"
-                                        name="phone"
-                                        placeholder="Phone"
-                                    />
-                                </div>
-                                <div className="col-md-12 col-sm-12">
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="phone"
-                                        placeholder="Address"
-                                    />
-                                </div>
-                                <div className="col-md-12 col-sm-12">
-                                    <textarea
-                                        className="form-control"
-                                        rows={5}
-                                        name="message"
-                                        placeholder="Message"
-                                        defaultValue={""}
-                                    />
-                                </div>
-                                <div className="col-md-12">
-                                    <button
-                                        id="submit"
-                                        type="submit"
-                                        className="form-control"
-                                        name="submit"
-                                    >
-                                        Send Message
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+                   
                 </div>
             </div>
 

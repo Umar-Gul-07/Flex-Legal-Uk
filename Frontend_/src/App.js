@@ -11,6 +11,9 @@ import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
+import Users from "./Pages/admin/UsersList";
+import AttorneysList from "./Pages/admin/AttorneysList";
+import TransactionList from "./Pages/admin/TransactionList";
 function App() {
   return (
     <>
@@ -32,11 +35,16 @@ function App() {
           <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
           <Route path='*' element={<PageNotFound404 />} />
 
+
+          {/* User Routes */}
+
    
 
           {/* Admin Routes */}
-          <Route path='/admin' element={<Dashboard><Main/></Dashboard>} />
-          {/* <Route path='/admin/dashboard' element={<Dashboard />} /> */}
+          <Route path='/dashboard' element={<Dashboard><Main/></Dashboard>} />
+          <Route path='/users-list' element={<Dashboard><Users/></Dashboard>} />
+          <Route path='/attorneys-list' element={<Dashboard><AttorneysList/></Dashboard>} />
+          <Route path='/transactions-list' element={<Dashboard><TransactionList/></Dashboard>} />
 
         </Routes>
 

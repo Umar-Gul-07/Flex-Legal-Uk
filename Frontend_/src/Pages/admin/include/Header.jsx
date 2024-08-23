@@ -24,7 +24,7 @@ const Header = () => {
                            
                             <Link to="/" className="logo logo-light">
                                 {/* <span className="logo-sm"> */}
-                                    <img src="#" alt="img" height={20} />
+                                    <img src="/assets/admin/images/logo-light.svg" alt="img" height={20} />
                                 {/* </span>
                                 <span className="logo-lg">
                                     <img src="assets/images/logo-light.svg" alt="imh" height={19} />
@@ -90,7 +90,7 @@ const Header = () => {
                             >
                                 <img
                                     className="rounded-circle header-profile-user"
-                                    src="assets/images/users/avatar-1.jpg"
+                                    src="/assets/admin/images/users/avatar-1.jpg"
                                     alt="Header Avatar"
                                 />
                                 <span className="d-none d-xl-inline-block ms-1" key="t-henry">
@@ -100,7 +100,7 @@ const Header = () => {
                             </button>
                             <div className="dropdown-menu dropdown-menu-end">
                                 {/* item*/}
-                                <Link className="dropdown-item" to="/admin/dashboard">
+                                <Link className="dropdown-item" to="/dashboard">
                                     <i className="bx bx-user font-size-16 align-middle me-1" />{" "}
                                     <span key="t-profile">Profile</span>
                                 </Link>
