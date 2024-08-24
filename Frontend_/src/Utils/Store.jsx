@@ -5,8 +5,9 @@ export const Store = createContext();
 
 const initialState = {
   UserInfo: localStorage.getItem("UserInfo")
-    ? JSON.parse(localStorage.getItem("UserInfo"))
-    : null,
+  ? JSON.parse(localStorage.getItem("UserInfo"))
+  : null,
+
   Admin: localStorage.getItem("Admin")
     ? JSON.parse(localStorage.getItem("Admin"))
     : null,
@@ -17,6 +18,15 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
+    case "LawyerLogin":
+      localStorage.setItem("UserInfo", JSON.stringify(action.payload));
+     return { ...state, UserInfo: action.payload };
+
+     case "LawyerLogout":
+       localStorage.removeItem("UserInfo");
+      localStorage.removeItem("Project");
+      return { ...state, UserInfo: null, Project: null };
+      
     case "ClearUserInfo":
       return { ...state, UserInfo: null };
     case "Admin":
