@@ -16,7 +16,11 @@ import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
 import Users from "./Pages/admin/UsersList";
 import AttorneysList from "./Pages/admin/AttorneysList";
 import TransactionList from "./Pages/admin/TransactionList";
+import UserDashboard from "./Pages/users/Dashboard";
+import UserMain from "./Pages/users/Main";
 import AdminProtected from "./Security/AdminProtected";
+import AttorneyProtected from "./Security/AttorneyProtected";
+import Setting from "./Pages/users/Setting";
 
 function App() {
   return (
@@ -37,9 +41,17 @@ function App() {
           <Route path='/attorneys' element={<WebsiteBase><Attorneys title="Attorneys"/></WebsiteBase>} />
           <Route path='/attorney-details/:name' element={<WebsiteBase><AttorneyDetails title="Attorney Details"/></WebsiteBase>} />
           <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
-          <Route path='/registration' element={<WebsiteBase><Registration title="Registration"/></WebsiteBase>} /> {/* Corrected to use Registration component */}
+          <Route path='/registration' element={<WebsiteBase><Registration title="Registration"/></WebsiteBase>} /> 
 
           <Route path='*' element={<PageNotFound404 />} />
+
+
+
+          {/* User Routes */}
+          <Route path='/user/dashboard' element={<AttorneyProtected><UserMain><UserDashboard/></UserMain></AttorneyProtected>} />
+          <Route path='/user/settings' element={<AttorneyProtected><UserMain><Setting/></UserMain></AttorneyProtected>} />
+
+
 
           {/* Admin Routes */}
           <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />

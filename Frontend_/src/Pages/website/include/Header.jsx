@@ -55,8 +55,8 @@ function Header() {
               {UserInfo? UserInfo.isAdmin?
               <li className={location.pathname === '/admin/dashboard' ? 'active' : ''}>
                 <Link to="/admin/dashboard">Dashboard</Link>
-              </li>:UserInfo.isLawyer?<li className={location.pathname === '/login' ? 'active' : ''}>
-                <Link to="/login">Login</Link>
+              </li>:UserInfo.isLawyer?<li className={location.pathname === '/user/dashboard' ? 'active' : ''}>
+                <Link to="/user/dashboard">Dashboard</Link>
               </li>:<li className={location.pathname === '/login' ? 'active' : ''}>
                 <Link to="/login">Login</Link>
               </li>:<li className={location.pathname === '/login' ? 'active' : ''}>
