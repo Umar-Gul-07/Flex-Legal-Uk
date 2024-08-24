@@ -35,6 +35,29 @@ class UserController {
       next(err);
     }
   }
+
+  static getAllUsers = async (req, res, next) => {
+    try {
+      const result = await user.find()
+
+      if (!result || result.length === 0) {
+        return res.status(404).json({message:"Sorry, no lawyer is available."});
+      }
+      res.status(200).json(result);
+    } catch (err) {
+      console.error('Error in getAllLawyers:', err); // Log errors
+      next(createError(500, 'Internal Server Error'));
+    }
+  };
+
+  static deleteDocById = async (req, res) => {
+    try {
+      const result = await user.findByIdAndDelete(req.params.id);
+      res.redirect("/student");
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default UserController;

@@ -12,6 +12,7 @@ import Login from "./Pages/website/Login";
 import Registration from "./Pages/website/Registration"; // Import Registration component
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
+import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
 import Users from "./Pages/admin/UsersList";
 import AttorneysList from "./Pages/admin/AttorneysList";
 import TransactionList from "./Pages/admin/TransactionList";
@@ -43,6 +44,7 @@ function App() {
           <Route path='/dashboard' element={<Dashboard><Main/></Dashboard>} />
           <Route path='/users-list' element={<Dashboard><Users/></Dashboard>} />
           <Route path='/attorneys-list' element={<Dashboard><AttorneysList/></Dashboard>} />
+          <Route path='/attorneys-details' element={<Dashboard><AdminAttorneyDetails/></Dashboard>} />
           <Route path='/transactions-list' element={<Dashboard><TransactionList/></Dashboard>} />
 
         </Routes>

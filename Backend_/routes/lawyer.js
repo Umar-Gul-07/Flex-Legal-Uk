@@ -9,8 +9,10 @@ const router = express.Router();
 
 router.get('/search', lawyerController.searchLawyersByAddress)
 router.get('/verify', lawyerController.verifyMail)
+router.get('/get_all_attorney', lawyerController.getAllLawyers)
 router.get('/getUser/:id', lawyerController.getLawyer)
 router.post('/register', emailAndPasswordValidation, validate, lawyerController.registerLawyer);  
+router.delete('/delete/:id',  lawyerController.deleteDocById);  
  
 router.patch('/upload/image/:id', upload.single('image'), lawyerController.uploadImage);
 

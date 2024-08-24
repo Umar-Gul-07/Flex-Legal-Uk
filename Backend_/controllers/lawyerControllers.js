@@ -5,37 +5,37 @@ import bcrypt from 'bcrypt';
 class LawyerController {
 
   // Send email===============================================
-static sendVerifyEmail = async (firstName, email, user_id) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: "umamaabd@gmail.com",
-        pass: "eatcxpufvlgskjhw",
-      },
-    });
+  static sendVerifyEmail = async (firstName, email, user_id) => {
+    try {
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          user: "umamaabd@gmail.com",
+          pass: "eatcxpufvlgskjhw",
+        },
+      });
 
-    const mailOptions = {
-      from: "umamaabd@gmail.com",
-      to: email,
-      subject: "Verify Email",
-      text: `Hello ${firstName}, please verify your email.`,
-      html: `<p>Hello ${firstName}, please click <a href="http://192.168.1.8/verify?id=${user_id}">here</a> to verify your email.</p>`,
-    };
+      const mailOptions = {
+        from: "umamaabd@gmail.com",
+        to: email,
+        subject: "Verify Email",
+        text: `Hello ${firstName}, please verify your email.`,
+        html: `<p>Hello ${firstName}, please click <a href="http://192.168.1.8/verify?id=${user_id}">here</a> to verify your email.</p>`,
+      };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Email has been sent:", info.response);
-      }
-    });
+      transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Email has been sent:", info.response);
+        }
+      });
 
-    console.log("Email sent successfully!");
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+      console.log("Email sent successfully!");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
 
 
@@ -66,7 +66,7 @@ static sendVerifyEmail = async (firstName, email, user_id) => {
         address: address,
         education: education,
         practiceArea: practiceArea,
-        expertise:expertise,
+        expertise: expertise,
       });
 
       await newLawyer.save();
@@ -79,7 +79,7 @@ static sendVerifyEmail = async (firstName, email, user_id) => {
 
 
 
-//mail verification===============================================
+  //mail verification===============================================
   static verifyMail = async (req, res) => {
     try {
       const updateInfo = await user.updateOne(
@@ -102,24 +102,24 @@ static sendVerifyEmail = async (firstName, email, user_id) => {
       // const query = address ? { address: { $regex: new RegExp(address, 'i') } } : {};
       // const result = await lawyerModel.find(query, { password: 0, isLawyer: 0 });
       const result = await lawyerModel.find()
-  
+
       if (!result || result.length === 0) {
-        return res.send("Sorry, no lawyer is available.");
+        return res.status(404).json({message:"Sorry, no lawyer is available."});
       }
-  
+
       res.status(200).json(result);
     } catch (err) {
       console.error('Error in getAllLawyers:', err); // Log errors
       next(createError(500, 'Internal Server Error'));
     }
   };
-  
 
 
-// search =======================================================
+
+  // search =======================================================
   static searchLawyersByAddress = async (req, res, next) => {
     try {
-      const { data  } = req.body.params;
+      const { data } = req.body.params;
       console.log(data)
 
       if (!address) {
@@ -139,150 +139,152 @@ static sendVerifyEmail = async (firstName, email, user_id) => {
   }
 
 
-//edit lawyer==========================================================================
-static editDoc = async (req, res) => {
-  try {
-    const result = await user.findById(req.params.id);
-    res.render("edit", { data: result });
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//update ============================================================================
-
-static update = async (req, res, next) => {
-  try {
-    const id = req.params.id.trim();
-    const updateData = req.body;
-
-    const result = await lawyerModel.findByIdAndUpdate(id, updateData, { new: true }); // { new: true } to return the updated document
-    res
-      .status(200)
-      .json({ message: "Lawyer updated successfully", data: result });
-  } catch (error) {
-    next(error);
-  }
-};
-
-static updatePassword = async (req, res, next) => {
-  try {
-    const id = req.params.id.trim();
-    const updateData = req.body;
-
-    const foundLawyer = await lawyerModel.findById({ _id: id });
-
-    if (!foundLawyer) {
-      return next(createError(404, "Password not found"));
+  //edit lawyer==========================================================================
+  static editDoc = async (req, res) => {
+    try {
+      const result = await user.findById(req.params.id);
+      res.render("edit", { data: result });
+    } catch (error) {
+      console.log(error);
     }
+  };
 
-    if (
-      updateData.currentPassword &&
-      updateData.newPassword &&
-      updateData.confirmPassword
-    ) {
-      if (updateData.newPassword === updateData.confirmPassword) {
-        const passwordMatch = await bcrypt.compare(
-          updateData.currentPassword,
-          foundLawyer.password
-        );
+  //update ============================================================================
 
-        if (passwordMatch) {
-          const saltRounds = 10;
-          const hashedPassword = await bcrypt.hash(
-            updateData.newPassword,
-            saltRounds
+  static update = async (req, res, next) => {
+    try {
+      const id = req.params.id.trim();
+      const updateData = req.body;
+
+      const result = await lawyerModel.findByIdAndUpdate(id, updateData, { new: true }); // { new: true } to return the updated document
+      res
+        .status(200)
+        .json({ message: "Lawyer updated successfully", data: result });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  static updatePassword = async (req, res, next) => {
+    try {
+      const id = req.params.id.trim();
+      const updateData = req.body;
+
+      const foundLawyer = await lawyerModel.findById({ _id: id });
+
+      if (!foundLawyer) {
+        return next(createError(404, "Password not found"));
+      }
+
+      if (
+        updateData.currentPassword &&
+        updateData.newPassword &&
+        updateData.confirmPassword
+      ) {
+        if (updateData.newPassword === updateData.confirmPassword) {
+          const passwordMatch = await bcrypt.compare(
+            updateData.currentPassword,
+            foundLawyer.password
           );
-          foundLawyer.password = hashedPassword;  
-          await foundLawyer.save();
-          return res.status(200).json({
-            message: "Password Updated Successfully",
-            data: foundLawyer,
-          });
+
+          if (passwordMatch) {
+            const saltRounds = 10;
+            const hashedPassword = await bcrypt.hash(
+              updateData.newPassword,
+              saltRounds
+            );
+            foundLawyer.password = hashedPassword;
+            await foundLawyer.save();
+            return res.status(200).json({
+              message: "Password Updated Successfully",
+              data: foundLawyer,
+            });
+          } else {
+            return res.status(400).json({ message: "Current password is wrong" });
+          }
         } else {
-          return res.status(400).json({ message: "Current password is wrong" });
+          return res
+            .status(400)
+            .json({ message: "New Password and Confirm Password do not match" });
         }
       } else {
-        return res
-          .status(400)
-          .json({ message: "New Password and Confirm Password do not match" });
+        return res.status(400).json({ message: "All fields are required" });
       }
-    } else {
-      return res.status(400).json({ message: "All fields are required" });
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
-  }
-};
+  };
 
 
 
 
-//Delete Accound============================================================
-static deleteDocById = async (req, res) => {
-  try {
-    const result = await lawyerModel.findByIdAndDelete(req.params.id);
-    res.redirect("/student");
-  } catch (error) {
-    next(error);
-  }
-};
-
-
-
-//getLawyer====================================================
-static getLawyer = async (req, res) => {
-  try {
-     const { lawyer } = req;
-
-     if (!lawyer) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Lawyer not found" });
+  //Delete Accound============================================================
+  static deleteDocById = async (req, res) => {
+    try {
+      const result = await lawyerModel.findByIdAndDelete(req.params.id);
+      res.redirect("/student");
+    } catch (error) {
+      next(error);
     }
+  };
 
-     res.status(200).json({
-      success: true,
-      data: {
-        firstName: lawyer.firstName,
-        lastName: lawyer.lastName,
-        email: lawyer.email,
-       },
-    });
-  } catch (error) {
-    console.error("Error fetching Lawyer data:", error);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
 
-//image ======================================================
-static uploadImage = async (req, res) => {
-  const image = req.file.path;
-  const id = req.params.id.trim();
-  console.log("hitt 2");
 
-  if (image) {
-    console.log(image);
+  //getLawyer====================================================
+  static getLawyer = async (req, res) => {
+    try {
+      const { lawyer } = req;
+
+      if (!lawyer) {
+        return res
+          .status(404)
+          .json({ success: false, message: "Lawyer not found" });
+      }
+
+      res.status(200).json({
+        success: true,
+        data: {
+          firstName: lawyer.firstName,
+          lastName: lawyer.lastName,
+          email: lawyer.email,
+        },
+      });
+    } catch (error) {
+      console.error("Error fetching Lawyer data:", error);
+      res.status(500).json({ success: false, message: "Internal server error" });
+    }
+  };
+
+  //image ======================================================
+  static uploadImage = async (req, res) => {
+    const image = req.file.path;
     const id = req.params.id.trim();
-    const foundLawyer = await lawyerModel.findById({ _id: id });
+    console.log("hitt 2");
 
-    if (!foundLawyer) {
-      return next(createError(404, "Lawyer not found"));
+    if (image) {
+      console.log(image);
+      const id = req.params.id.trim();
+      const foundLawyer = await lawyerModel.findById({ _id: id });
+
+      if (!foundLawyer) {
+        return next(createError(404, "Lawyer not found"));
+      }
+
+      foundLawyer.image = image;
+      foundLawyer.save();
+      console.log(foundLawyer);
+      res.status(200).json({
+        message: "Image uploaded successfully",
+        data: foundLawyer,
+      });
+    } else {
+      res.status(500).json({
+        message: "Image upload failed",
+      });
     }
-
-    foundLawyer.image = image;
-    foundLawyer.save();
-    console.log(foundLawyer);
-    res.status(200).json({
-      message: "Image uploaded successfully",
-      data: foundLawyer,
-    });
-  } else {
-    res.status(500).json({
-      message: "Image upload failed",
-    });
   }
-}
+
+  
 }
 
 
