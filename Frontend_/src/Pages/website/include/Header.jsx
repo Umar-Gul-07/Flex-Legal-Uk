@@ -5,7 +5,7 @@ import { Store } from '../../../Utils/Store';
 
 function Header() {
   const { state } = useContext(Store)
-  const { ContactInfo } = state
+  const { UserInfo, ContactInfo } = state
   const location = useLocation();
   return (
 
@@ -52,9 +52,18 @@ function Header() {
                 <Link to="/contact">Contact</Link>
               </li>
 
-              <li className={location.pathname === '/login' ? 'active' : ''}>
+              {UserInfo? UserInfo.isAdmin?
+              <li className={location.pathname === '/admin/dashboard' ? 'active' : ''}>
+                <Link to="/admin/dashboard">Dashboard</Link>
+              </li>:UserInfo.isLawyer?<li className={location.pathname === '/login' ? 'active' : ''}>
+                <Link to="/login">Login</Link>
+              </li>:<li className={location.pathname === '/login' ? 'active' : ''}>
+                <Link to="/login">Login</Link>
+              </li>:<li className={location.pathname === '/login' ? 'active' : ''}>
                 <Link to="/login">Login</Link>
               </li>
+              }
+
               <li>
                 <span className="calltxt">
                   <i className="fa fa-phone" aria-hidden="true" /> {ContactInfo.contact_phone}

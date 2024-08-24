@@ -1,16 +1,33 @@
-// import { useContext } from "react"
-// import { Store } from "../../Services/Store"
+import { useContext, useEffect, useState } from "react"
+import { Store } from "../../Utils/Store"
+import api from "../../Utils/Axios";
+
 
 const Main = () => {
-    // const { state } = useContext(Store)
-    const  UserInfo  = "something"
+    const [information, setInformation] = useState([]);
+
+    const get_all_information = async () => {
+        try {
+            const { data } = await api.get(`/user/get_all_information`);
+            setInformation(data)
+            console.log(data)
+        } catch (error) {
+            // toast.error(error.message || "Failed to fetch attorneys");
+        }
+    };
+    const { state } = useContext(Store)
+    const { UserInfo } = state
+
+    useEffect(() => {
+        get_all_information()
+    }, [])
     return (
         <>
             <div className="row">
                 <div className="col-lg-12">
                     <div className="card">
                         <div className="card-body">
-                            <div className="row">
+                            <div className="row justify-content-center">
                                 <div className="col-lg-4">
                                     <div className="d-flex">
                                         <div className="flex-shrink-0 me-3">
@@ -18,31 +35,15 @@ const Main = () => {
                                         </div>
                                         <div className="flex-grow-1 align-self-center">
                                             <div className="text-muted">
-                                                <p className="mb-2">Welcome to   <b>{UserInfo}</b>  Dashboard</p>
-                                                <h5 className="mb-1">{UserInfo}</h5>
-                                    
+                                                <p className="mb-2">Welcome to   <b>{UserInfo.firstName}</b>  Dashboard</p>
+                                                <h4>{UserInfo.email}</h4>
+
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-lg-4 align-self-center">
-                                    <div className="text-lg-center mt-4 mt-lg-0">
-                                        <div className="row">
-                                            <div className="col-6">
-                                                <div>
-                                                    <p className="text-muted text-truncate mb-2">Contracts</p>
-                                                    <h5 className="mb-0">40</h5>
-                                                </div>
-                                            </div>
-                                            <div className="col-6">
-                                                <div>
-                                                    <p className="text-muted text-truncate mb-2">Ideas</p>
-                                                    <h5 className="mb-0">18</h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
 
                             </div>
                             {/* end row */}
@@ -52,7 +53,7 @@ const Main = () => {
             </div>
 
             <div className="row">
-        
+
                 <div className="col-xl-12">
                     <div className="row">
                         <div className="col-sm-4">
@@ -64,11 +65,14 @@ const Main = () => {
                                                 <i className="bx bx-copy-alt" />
                                             </span>
                                         </div>
-                                        <h5 className="font-size-14 mb-0">Email</h5>
+                                        <h5 className="font-size-14 mb-0">Total Transactions</h5>
                                     </div>
                                     <div className="text-muted mt-4">
-                                        <h4>{UserInfo}<i className="mdi mdi-inbox ms-1 text-success" /></h4>
-                                       
+                                    <h4>
+                                            {information.transactions && Array.isArray(information.transactions) ? information.transactions.length : 0}
+                                            <i className="mdi mdi-inbox ms-1 text-success" />
+                                        </h4>
+
                                     </div>
                                 </div>
                             </div>
@@ -82,16 +86,19 @@ const Main = () => {
                                                 <i className="bx bx-copy-alt" />
                                             </span>
                                         </div>
-                                        <h5 className="font-size-14 mb-0">Phone</h5>
+                                        <h5 className="font-size-14 mb-0">Total Users</h5>
                                     </div>
                                     <div className="text-muted mt-4">
-                                        <h4>{UserInfo}<i className="mdi mdi-inbox ms-1 text-success" /></h4>
-                                       
+                                        <h4>
+                                            {information.users && Array.isArray(information.users) ? information.users.length : 0}
+                                            <i className="mdi mdi-inbox ms-1 text-success" />
+                                        </h4>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                      
+
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-body">
@@ -101,45 +108,24 @@ const Main = () => {
                                                 <i className="bx bx-copy-alt" />
                                             </span>
                                         </div>
-                                        <h5 className="font-size-14 mb-0">Address</h5>
+                                        <h5 className="font-size-14 mb-0">Total Attorneys</h5>
                                     </div>
                                     <div className="text-muted mt-4">
-                                        <h4>{UserInfo}<i className="mdi mdi-inbox ms-1 text-success" /></h4>
-                                       
+                                    <h4>
+                                            {information.attorneys && Array.isArray(information.attorneys) ? information.attorneys.length : 0}
+                                            <i className="mdi mdi-inbox ms-1 text-success" />
+                                        </h4>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                      
-                      
+
+
                     </div>
                     {/* end row */}
                 </div>
             </div>
-
-            <div className="row">
-        <div className="col-xl-12">
-          <div className="card bg-primary-subtle">
-            <div>
-              <div className="row">
-                <div className="col-7">
-                  <div className="text-primary p-3">
-                    <h5 className="text-primary">Description</h5>
-                    <ul className="ps-3 mb-0">
-                      <li className="py-1">{UserInfo}</li>
-                    </ul>
-                  </div>
-                </div>
-                <div className="col-5 align-self-end">
-                  <img src="assets/images/profile-img.png" alt="" className="img-fluid" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-       
-      </div>
-
         </>
     )
 }

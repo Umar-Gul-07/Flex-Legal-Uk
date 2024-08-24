@@ -81,7 +81,7 @@ function AttorneysList() {
                               <Link
                                 className="btn btn-outline-primary btn-sm edit"
                                 title="View"
-                                to={`/attorneys-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}
+                                to={`/admin/attorneys-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}
                               >
                                 <i className="fas fa-eye" />
                               </Link>

@@ -28,21 +28,27 @@ function Login({ title }) {
                 const userType = response.data.userType;
                 const userDocument = response.data.userDocument._doc; // Access the actual data under _doc
 
+                console.log("response")
+                console.log(response)
+
                 // Dispatching the extracted user data
                 dispatch({
-                    type: "LawyerLogin",
+                    type: "UserLoggedIn",
                     payload: userDocument, // Store only the necessary data
                 });
 
                 // Storing the extracted user data in local storage
                 localStorage.setItem("UserInfo", JSON.stringify(userDocument));
 
-                if (userType === "user") {
-                    toast.success("Login Successful as a User");
-                    navigate("/attorneys");
+                if (response.data.userDocument._doc.isAdmin) {
+                    toast.success("Login Successful as an Admin");
+                    navigate("/admin/dashboard");
                 } else if (userType === "lawyer") {
                     toast.success("Login Successful as a Lawyer");
                     navigate("/");
+                } else if (userType === "user") {
+                    toast.success("Login Successful as an User");
+                    navigate("/attorneys");
                 }
             } else {
                 toast.error(response.data.message);

@@ -36,25 +36,25 @@ const Sidebar = () => {
                                                     Sidebar
                                                 </li>
                                                 <li>
-                                                    <Link to="/dashboard" className="waves-effect">
+                                                    <Link to="/admin/dashboard" className="waves-effect">
                                                         <i className="bx bx-home" />
                                                         <span key="t-chat">Profile</span>
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/users-list" className="waves-effect">
+                                                    <Link to="/admin/users-list" className="waves-effect">
                                                         <i className="bx bx-user" />
                                                         <span key="t-chat">Users</span>
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/attorneys-list" className="waves-effect">
+                                                    <Link to="/admin/attorneys-list" className="waves-effect">
                                                         <i className="bx bx-book" />
                                                         <span key="t-chat">Attorneys</span>
                                                     </Link>
                                                 </li>
                                                 <li>
-                                                    <Link to="/transactions-list" className="waves-effect">
+                                                    <Link to="/admin/transactions-list" className="waves-effect">
                                                         <i className="bx bx-transfer" />
                                                         <span key="t-chat">Transaction</span>
                                                     </Link>

@@ -30,6 +30,10 @@ const userSchema = new Schema(
         isUser: {
             type: Boolean,
             default: false
+        },
+        isAdmin: {
+            type: Boolean,
+            default: false
         }
        
     }, { timestamps: true } )
