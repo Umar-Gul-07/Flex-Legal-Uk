@@ -3,14 +3,14 @@ import { useContext } from "react";
 import { Store } from "../../../Utils/Store";
 
 const Sidebar = () => {
-    const {dispatch } = useContext(Store)
+    const {state,dispatch } = useContext(Store)
+    const {UserInfo} = state
  
     const navigate = useNavigate()
     const handleLogout = () => {
         localStorage.removeItem('UserInfo');
         dispatch({ type: 'ClearUserInfo', payload: null })
         navigate('/login');
-        window.location.reload()
     };
     return (
         <>
@@ -26,6 +26,7 @@ const Sidebar = () => {
                                     className="simplebar-content-wrapper"
                                     style={{ height: "100%", overflow: "hidden scroll" }}
                                 >
+                                    {UserInfo? UserInfo.isAdmin?
                                     <div className="simplebar-content" style={{ padding: 0 }}>
                                         {/*- Sidemenu */}
                                         <div id="sidebar-menu" className="mm-active">
@@ -70,7 +71,42 @@ const Sidebar = () => {
 
                                         </div>
                                         {/* Sidebar */}
-                                    </div>
+                                    </div>:UserInfo.isLawyer?<div className="simplebar-content" style={{ padding: 0 }}>
+                                        {/*- Sidemenu */}
+                                        <div id="sidebar-menu" className="mm-active">
+                                            <p className="mb-2 ml-5" style={{marginLeft:"20px",color:"red"}}><b>Lawyer</b></p>
+
+                                            <ul className="metismenu list-unstyled mm-show" id="side-menu">
+                                                <li className='menu-title' id='key-menu'>
+                                                    Sidebar
+                                                </li>
+                                                <li>
+                                                    <Link to="/user/dashboard" className="waves-effect">
+                                                        <i className="bx bx-home" />
+                                                        <span key="t-chat">Profile</span>
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link to="/user/settings" className="waves-effect">
+                                                        <i className="bx bx-slider-alt" />
+                                                        <span key="t-chat">Setting</span>
+                                                    </Link>
+                                                </li>
+                                              
+                                                <li onClick={handleLogout}>
+                                                    <Link className="waves-effect">
+                                                        <i className="bx bx-power-off" />
+                                                        <span key="t-chat">Logout</span>
+                                                    </Link>
+                                                </li>
+                                            </ul>
+
+
+                                        </div>
+                                        {/* Sidebar */}
+                                    </div>:null:null
+                                    }
+
                                 </div>
                             </div>
                         </div>

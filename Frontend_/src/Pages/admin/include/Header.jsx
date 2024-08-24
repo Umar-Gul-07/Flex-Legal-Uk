@@ -5,14 +5,14 @@ import { Store } from "../../../Utils/Store"
 
 
 const Header = () => {
-    const {state,dispatch} = useContext(Store)
-    const {UserInfo} = state
+    const { state, dispatch } = useContext(Store)
+    const { UserInfo } = state
     const navigate = useNavigate()
     const handleLogout = () => {
         localStorage.removeItem('UserInfo');
         dispatch({ type: 'ClearUserInfo', payload: null })
         navigate('/login');
-       
+
     };
     return (
         <>
@@ -21,15 +21,15 @@ const Header = () => {
                     <div className="d-flex">
                         {/* LOGO */}
                         <div className="navbar-brand-box">
-                           
+
                             <Link to="/" className="logo logo-light">
                                 {/* <span className="logo-sm"> */}
-                                    <img src="/assets/admin/images/logo-light.svg" alt="img" height={20} />
+                                <img src="/assets/admin/images/logo-light.svg" alt="img" height={20} />
                                 {/* </span>
                                 <span className="logo-lg">
                                     <img src="assets/images/logo-light.svg" alt="imh" height={19} />
                                 </span> */}
-                           </Link>
+                            </Link>
                         </div>
                         <button
                             type="button"
@@ -39,8 +39,8 @@ const Header = () => {
                             <i className="fa fa-fw fa-bars" />
                         </button>
                         {/* App Search*/}
-                       
-                       
+
+
 
                     </div>
                     <div className="d-flex">
@@ -78,7 +78,7 @@ const Header = () => {
                                 </form>
                             </div>
                         </div>
-                    
+
                         <div className="dropdown d-inline-block">
                             <button
                                 type="button"
@@ -100,11 +100,18 @@ const Header = () => {
                             </button>
                             <div className="dropdown-menu dropdown-menu-end">
                                 {/* item*/}
-                                <Link className="dropdown-item" to="/admin/dashboard">
-                                    <i className="bx bx-user font-size-16 align-middle me-1" />{" "}
-                                    <span key="t-profile">Profile</span>
-                                </Link>
-                               
+                                {UserInfo ? UserInfo.isAdmin ?
+                                    <Link className="dropdown-item" to="/admin/dashboard">
+                                        <i className="bx bx-user font-size-16 align-middle me-1" />{" "}
+                                        <span key="t-profile">Profile</span>
+                                    </Link>
+                                    : UserInfo.isLawyer ?
+                                        <Link className="dropdown-item" to="/user/dashboard">
+                                            <i className="bx bx-user font-size-16 align-middle me-1" />{" "}
+                                            <span key="t-profile">Profile</span>
+                                        </Link>
+                                        : null : null}
+
                                 <div className="dropdown-divider" />
                                 <Link className="dropdown-item text-danger" onClick={handleLogout}>
                                     <i className="bx bx-power-off font-size-16 align-middle me-1 text-danger" />{" "}
@@ -112,7 +119,7 @@ const Header = () => {
                                 </Link>
                             </div>
                         </div>
-                      
+
                     </div>
                 </div>
             </header>
