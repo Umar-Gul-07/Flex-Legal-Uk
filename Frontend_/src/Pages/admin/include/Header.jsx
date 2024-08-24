@@ -12,7 +12,7 @@ const Header = () => {
         localStorage.removeItem('UserInfo');
         dispatch({ type: 'ClearUserInfo', payload: null })
         navigate('/login');
-        window.location.reload()
+       
     };
     return (
         <>
@@ -94,13 +94,13 @@ const Header = () => {
                                     alt="Header Avatar"
                                 />
                                 <span className="d-none d-xl-inline-block ms-1" key="t-henry">
-                                    {UserInfo}
+                                    {UserInfo.lastName}
                                 </span>
                                 <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
                             </button>
                             <div className="dropdown-menu dropdown-menu-end">
                                 {/* item*/}
-                                <Link className="dropdown-item" to="/dashboard">
+                                <Link className="dropdown-item" to="/admin/dashboard">
                                     <i className="bx bx-user font-size-16 align-middle me-1" />{" "}
                                     <span key="t-profile">Profile</span>
                                 </Link>

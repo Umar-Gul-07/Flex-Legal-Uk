@@ -12,9 +12,11 @@ import Login from "./Pages/website/Login";
 import Registration from "./Pages/website/Registration"; // Import Registration component
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
+import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
 import Users from "./Pages/admin/UsersList";
 import AttorneysList from "./Pages/admin/AttorneysList";
 import TransactionList from "./Pages/admin/TransactionList";
+import AdminProtected from "./Security/AdminProtected";
 
 function App() {
   return (
@@ -40,10 +42,11 @@ function App() {
           <Route path='*' element={<PageNotFound404 />} />
 
           {/* Admin Routes */}
-          <Route path='/dashboard' element={<Dashboard><Main/></Dashboard>} />
-          <Route path='/users-list' element={<Dashboard><Users/></Dashboard>} />
-          <Route path='/attorneys-list' element={<Dashboard><AttorneysList/></Dashboard>} />
-          <Route path='/transactions-list' element={<Dashboard><TransactionList/></Dashboard>} />
+          <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />
+          <Route path='/admin/users-list' element={<AdminProtected><Dashboard><Users/></Dashboard></AdminProtected>} />
+          <Route path='/admin/attorneys-list' element={<AdminProtected><Dashboard><AttorneysList/></Dashboard></AdminProtected>} />
+          <Route path='/admin/attorneys-details' element={<AdminProtected><Dashboard><AdminAttorneyDetails/></Dashboard></AdminProtected>} />
+          <Route path='/admin/transactions-list' element={<AdminProtected><Dashboard><TransactionList/></Dashboard></AdminProtected>} />
 
         </Routes>
 

@@ -4,5 +4,9 @@ import UserController from '../controllers/userController.js';
 
 const router = express.Router();
 
+router.get('/get_all_users', UserController.getAllUsers);
+router.get('/get_all_information', UserController.get_all_information);
 router.post('/register', emailAndPasswordValidation, validate, UserController.register);
+router.delete('/delete/:id', UserController.deleteDocById);
+
 export default router;

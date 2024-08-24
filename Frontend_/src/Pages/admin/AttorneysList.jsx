@@ -1,102 +1,117 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { teamMembers } from '../../Utils/Data'
-import { toast } from 'react-toastify'
-import api from '../../Utils/Axios'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import api from '../../Utils/Axios';
 
 function AttorneysList() {
-  const [attorneys, setAttorneys] = useState([])
+  const [attorneys, setAttorneys] = useState([]); 
+  const [loading, setLoading] = useState(true); // New state for loading
 
   const get_all_attorneys = async () => {
     try {
-      const { data } = await api.get(`get_all_attorneys/`)
-      setAttorneys(data)
+      const { data } = await api.get(`/lawyer/get_all_attorney`);
+
+      if (Array.isArray(data)) {
+        setAttorneys(data);
+      } else {
+        toast.error("Unexpected response format");
+      }
     } catch (error) {
-      toast.error(error.message)
+      // toast.error(error.message || "Failed to fetch attorneys");
+    } finally {
+      setLoading(false); // Stop loading
     }
-  }
-
-
+  };
 
   const DeleteAttorney = async (id) => {
     try {
-      const data = { id: id }
-      const result = await api.post('', data)
-      setAttorneys(attorneys.filter(attorney => attorney.id !== id))
-      toast.success("Attorney Deleted")
+      await api.delete(`/lawyer/delete/${id}`);
+      setAttorneys(prevAttorneys => prevAttorneys.filter(attorney => attorney._id !== id));
+      toast.success("Attorney Deleted");
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message || "Failed to delete attorney");
     }
+  };
+
+  useEffect(() => {
+    get_all_attorneys();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Display a loading state while fetching data
   }
+
   return (
-    <>
-      <div className="page-content">
-        <div className="container-fluid">
-          {/* start page title */}
-          <div className="row">
-            <div className="col-12">
-              <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 className="mb-sm-0 font-size-18">Attorney Lists</h4>
-              </div>
+    <div className="page-content">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-12">
+            <div className="page-title-box d-sm-flex align-items-center justify-content-between">
+              <h4 className="mb-sm-0 font-size-18">Attorney Lists</h4>
             </div>
           </div>
-          {/* end page title */}
-          <div className="row">
-            <div className="col-12">
-              <div className="card">
-                <div className="card-body">
-                  <h4 className="card-title">Attorney</h4>
-                  <div className="table-responsive">
-                    <table className="table table-editable table-nowrap align-middle table-edits">
-                      <thead>
-                        <tr style={{ cursor: "pointer" }}>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Age</th>
-                          <th>Gender</th>
-                          <th>Edit</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {teamMembers.map((object) => (
-                          <tr data-id={1} style={{ cursor: "pointer" }}>
-                            <td data-field="id" style={{ width: 80 }}>
-                              {object.id}
-                            </td>
-                            <td data-field="name">{object.name}</td>
-                            <td data-field="age">24</td>
-                            <td data-field="gender">{object.title}</td>
+        </div>
+        <div className="row">
+          <div className="col-12">
+            <div className="card">
+              <div className="card-body">
+                <h4 className="card-title">Attorney</h4>
+                <div className="table-responsive">
+                  <table className="table table-editable table-nowrap align-middle table-edits">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Cell</th>
+                        <th>Address</th>
+                        <th>Edit</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {attorneys.length > 0 ? (
+                        attorneys.map((attorney) => (
+                          <tr key={attorney._id} style={{ cursor: "pointer" }}>
+                            <td style={{ width: 80 }}>{attorney._id}</td>
+                            <td>{attorney.firstName} {attorney.lastName}</td>
+                            <td>{attorney.email}</td>
+                            <td>{attorney.cell}</td>
+                            <td>{attorney.address}</td>
                             <td style={{ width: 100 }}>
-                              <Link to="#"
-                                className="btn btn-outline-secondary btn-sm edit"
-                                title="Edit"
+                              <Link
+                                className="btn btn-outline-primary btn-sm edit"
+                                title="View"
+                                to={`/admin/attorneys-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}
                               >
-                                <i className="fas fa-pencil-alt" />
+                                <i className="fas fa-eye" />
                               </Link>
-                              <Link onClick={() => { DeleteAttorney(object.id) }}
+                              <button
+                                onClick={() => DeleteAttorney(attorney._id)}
                                 className="btn btn-outline-danger btn-sm edit"
-                                title="delete"
+                                title="Delete"
                               >
                                 <i className="fas fa-trash" />
-                              </Link>
+                              </button>
                             </td>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6">
+                            <p className='text-danger text-center'>No Attorneys Found</p>
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                 </div>
               </div>
-            </div>{" "}
-            {/* end col */}
-          </div>{" "}
-          {/* end row */}
-        </div>{" "}
-        {/* container-fluid */}
-      </div>
-    </>
-  )
+            </div>
+          </div> {/* end col */}
+        </div> {/* end row */}
+      </div> {/* container-fluid */}
+    </div>
+  );
 }
 
-export default AttorneysList
+export default AttorneysList;

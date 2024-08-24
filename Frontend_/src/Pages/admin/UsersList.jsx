@@ -1,32 +1,48 @@
-import React, { useState } from 'react'
-import { teamMembers } from '../../Utils/Data'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import api from '../../Utils/Axios.jsx'
 function Users() {
   const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true); // New state for loading
 
   const get_all_users = async () => {
     try {
-      const { data } = await api.get(`get_all_users/`)
-      setUsers(data)
+      const { data } = await api.get(`/user/get_all_users`);
+
+      if (Array.isArray(data)) {
+        setUsers(data);
+      } else {
+        toast.error("Unexpected response format");
+      }
     } catch (error) {
-      toast.error(error.message)
+      // toast.error(error.message || "Failed to fetch attorneys");
+    } finally {
+      setLoading(false); // Stop loading
     }
-  }
+  };
 
 
 
   const DeleteUser = async (id) => {
     try {
-      const data = { id: id }
-      const result = await api.post('', data)
-      setUsers(users.filter(user => user.id !== id))
-      toast.success("User Deleted")
+      await api.delete(`/user/delete/${id}`);
+      setUsers(prevAttorneys => prevAttorneys.filter(user => user._id !== id));
+      toast.success("User Deleted");
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error.message || "Failed to delete users");
     }
+  };
+
+
+  useEffect(() => {
+    get_all_users();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>; // Display a loading state while fetching data
   }
+
   return (
     <>
       <div className="page-content">
@@ -51,37 +67,37 @@ function Users() {
                         <tr style={{ cursor: "pointer" }}>
                           <th>ID</th>
                           <th>Name</th>
-                          <th>Age</th>
-                          <th>Gender</th>
+                          <th>Email</th>
                           <th>Edit</th>
                         </tr>
                       </thead>
                       <tbody>
 
-                        {teamMembers.map((object) => (
-                          <tr data-id={1} style={{ cursor: "pointer" }}>
-                            <td data-field="id" style={{ width: 80 }}>
-                              {object.id}
-                            </td>
-                            <td data-field="name">{object.name}</td>
-                            <td data-field="age">24</td>
-                            <td data-field="gender">{object.title}</td>
+                      {users.length > 0 ? (
+                        users.map((user) => (
+                          <tr key={user._id} style={{ cursor: "pointer" }}>
+                            <td style={{ width: 80 }}>{user._id}</td>
+                            <td>{user.firstName} {user.lastName}</td>
+                            <td>{user.email}</td>
                             <td style={{ width: 100 }}>
-                              <Link to="#"
-                                className="btn btn-outline-secondary btn-sm edit"
-                                title="Edit"
-                              >
-                                <i className="fas fa-pencil-alt" />
-                              </Link>
-                              <Link onClick={() => { DeleteUser(object.id) }}
+                             
+                              <button
+                                onClick={() => DeleteUser(user._id)}
                                 className="btn btn-outline-danger btn-sm edit"
-                                title="delete"
+                                title="Delete"
                               >
                                 <i className="fas fa-trash" />
-                              </Link>
+                              </button>
                             </td>
                           </tr>
-                        ))}
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan="6">
+                            <p className='text-danger text-center'>No Users Found</p>
+                          </td>
+                        </tr>
+                      )}
                       </tbody>
                     </table>
                   </div>
