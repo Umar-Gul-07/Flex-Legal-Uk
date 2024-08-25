@@ -9,7 +9,7 @@ import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
-import Registration from "./Pages/website/Registration"; // Import Registration component
+import Registration from "./Pages/website/Registration"; 
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
 import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
@@ -39,7 +39,7 @@ function App() {
           <Route path='/services' element={<WebsiteBase><Services title="Services"/></WebsiteBase>} />
           <Route path='/contact' element={<WebsiteBase><Contact title="Contact Us"/></WebsiteBase>} />
           <Route path='/attorneys' element={<WebsiteBase><Attorneys title="Attorneys"/></WebsiteBase>} />
-          <Route path='/attorney-details/:name' element={<WebsiteBase><AttorneyDetails title="Attorney Details"/></WebsiteBase>} />
+          <Route path='/attorney-details' element={<WebsiteBase><AttorneyDetails title="Attorney Details"/></WebsiteBase>} />
           <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
           <Route path='/registration' element={<WebsiteBase><Registration title="Registration"/></WebsiteBase>} /> 
 
