@@ -48,7 +48,7 @@ function Attorneys({ title }) {
             {attorneys.length > 0 ? (
               attorneys.map((attorney) => (
                 <div className="col-md-3 col-sm-6" key={attorney._id}>
-                  <Link to={`/attorney-details/${attorney.firstName}-${attorney.lastName}`}>
+                  <Link to={`/attorney-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}>
                     <div className="team-thumb">
                       <div className="thumb-image">
                         <img
