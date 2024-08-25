@@ -9,7 +9,7 @@ import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
-import Registration from "./Pages/website/Registration"; // Import Registration component
+import Registration from "./Pages/website/Registration";  
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
 import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
