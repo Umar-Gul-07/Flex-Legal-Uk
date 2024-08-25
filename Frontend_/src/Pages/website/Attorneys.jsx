@@ -1,44 +1,78 @@
-import React from 'react'
-import { Helmet } from 'react-helmet'
-import PageTitle from './include/PageTitle'
-import { teamMembers } from '../../Utils/Data'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet';
+import PageTitle from './include/PageTitle';
+import { Link } from 'react-router-dom';
+ import api from '../../Utils/Axios';
+import { toast } from 'react-toastify';
 
 function Attorneys({ title }) {
-    return (
-        <>
-            <Helmet><title>{title}</title></Helmet>
+ 
+  const [attorneys, setAttorneys] = useState([]);
+  const [loading, setLoading] = useState(true); // New state for loading
 
+  const get_all_attorneys = async () => {
+    try {
+      const { data } = await api.get(`/lawyer/get_all_attorney`);
 
+      if (Array.isArray(data)) {
+        setAttorneys(data);
+      } else {
+        toast.error('Unexpected response format');
+      }
+    } catch (error) {
+      toast.error(error.message || 'Failed to fetch attorneys');
+    } finally {
+      setLoading(false); // Stop loading
+    }
+  };
 
-            <PageTitle title={title} />
+  useEffect(() => {
+    get_all_attorneys();
+  }, []);
 
+  if (loading) {
+    return <div>Loading...</div>; // Display a loading state while fetching data
+  }
 
-            <div className="parallax-section">
-                <div className="container">
-                    <div className="row">
+  return (
+    <>
+      <Helmet><title>{title}</title></Helmet>
 
-                        {teamMembers.map((object) => (
-                            <div className="col-md-3 col-sm-6">
-                                <Link to={`/attorney-details/:${object.name}`}>
+      <PageTitle title={title} />
 
-                                    <div className="team-thumb">
-                                        <div className="thumb-image">
-                                            <img src="/assets/website/images/team/team-img1.jpg" className="animate" alt="Team Member 1" />
-                                        </div>
-                                        <h4>{object.name}</h4>
-                                        <h5>{object.title}</h5>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
+      <div className="parallax-section">
+        <div className="container">
+          <div className="row">
 
+            
+            {attorneys.length > 0 ? (
+              attorneys.map((attorney) => (
+                <div className="col-md-3 col-sm-6" key={attorney._id}>
+                  <Link to={`/attorney-details/${attorney.firstName}-${attorney.lastName}`}>
+                    <div className="team-thumb">
+                      <div className="thumb-image">
+                        <img
+                          src={attorney.profileImage || '/assets/website/images/team/team-img1.jpg'}
+                          className="animate"
+                          alt={`${attorney.firstName} ${attorney.lastName}`}
+                        />
+                      </div>
+                      <h4>{attorney.firstName} {attorney.lastName}</h4>
+                      <h5>Attorney</h5>
                     </div>
+                  </Link>
                 </div>
-            </div>
-
-        </>
-    )
+              ))
+            ) : (
+              <div className="col-12">
+                <p className='text-danger text-center'>No Attorneys Found</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default Attorneys
+export default Attorneys;
