@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { Store } from "../../../Utils/Store"
+import { server_ip } from "../../../Utils/Data"
 // import logo from '../../../footer-logo.png'
 
 
@@ -90,7 +91,7 @@ const Header = () => {
                             >
                                 <img
                                     className="rounded-circle header-profile-user"
-                                    src="/assets/admin/images/users/avatar-1.jpg"
+                                    src={`${server_ip}/${UserInfo.image}`}
                                     alt="Header Avatar"
                                 />
                                 <span className="d-none d-xl-inline-block ms-1" key="t-henry">

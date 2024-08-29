@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { type } from 'os';
 
 const { Schema } = mongoose;
 
@@ -32,6 +33,9 @@ const lawyerSchema = new Schema({
     type: String,
     required: true,
   },
+  image: {
+    type: String
+  },
   practiceArea: {
     type: String,
     required: true,
@@ -46,7 +50,7 @@ const lawyerSchema = new Schema({
   },
   image: {
     type: String,
-     required:false
+    required: false
   },
   reviews: [
     {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import PageTitle from './include/PageTitle';
+import { server_ip } from '../../Utils/Data';
 
 function AttorneyDetails({ title }) {
     const location = useLocation();
@@ -19,7 +20,7 @@ function AttorneyDetails({ title }) {
                     <div className="attorneytop">
                         <div className="row">
                             <div className="col-md-4 col-sm-4">
-                                <img src="/assets/website/images/team/team-img1.jpg" className="lawimg" alt="" />
+                                <img src={`${server_ip}/${object.image}`} className="lawimg" alt="" />
                                 <button className='btn btn-danger' style={{marginTop:"30px"}}>Hire me</button>
                             </div>
                             <div className="col-md-8 col-sm-8">

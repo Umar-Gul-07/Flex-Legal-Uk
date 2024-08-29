@@ -104,7 +104,7 @@ class LawyerController {
       const result = await lawyerModel.find()
 
       if (!result || result.length === 0) {
-        return res.status(404).json({message:"Sorry, no lawyer is available."});
+        return res.status(404).json({ message: "Sorry, no lawyer is available." });
       }
 
       res.status(200).json(result);
@@ -151,19 +151,32 @@ class LawyerController {
 
   //update ============================================================================
 
-  static update = async (req, res, next) => {
+  static updateLawyerWithImage = async (req, res, next) => {
     try {
       const id = req.params.id.trim();
       const updateData = req.body;
 
+      // Check if an image file was uploaded
+      if (req.file) {
+        updateData.image = req.file.path;
+      }
+
+      // Find and update the lawyer
       const result = await lawyerModel.findByIdAndUpdate(id, updateData, { new: true }); // { new: true } to return the updated document
-      res
-        .status(200)
-        .json({ message: "Lawyer updated successfully", data: result });
+
+      if (!result) {
+        return next(createError(404, "Lawyer not found"));
+      }
+
+      res.status(200).json({
+        message: "Lawyer updated successfully",
+        data: result
+      });
     } catch (error) {
       next(error);
     }
   };
+
 
   static updatePassword = async (req, res, next) => {
     try {
@@ -255,36 +268,7 @@ class LawyerController {
     }
   };
 
-  //image ======================================================
-  static uploadImage = async (req, res) => {
-    const image = req.file.path;
-    const id = req.params.id.trim();
-    console.log("hitt 2");
 
-    if (image) {
-      console.log(image);
-      const id = req.params.id.trim();
-      const foundLawyer = await lawyerModel.findById({ _id: id });
-
-      if (!foundLawyer) {
-        return next(createError(404, "Lawyer not found"));
-      }
-
-      foundLawyer.image = image;
-      foundLawyer.save();
-      console.log(foundLawyer);
-      res.status(200).json({
-        message: "Image uploaded successfully",
-        data: foundLawyer,
-      });
-    } else {
-      res.status(500).json({
-        message: "Image upload failed",
-      });
-    }
-  }
-
-  
 }
 
 

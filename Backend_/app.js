@@ -30,6 +30,8 @@ const connect = async () => {
 //========================
 app.use(express.json())
 app.use(cors())
+app.use('/uploads', express.static('uploads'));
+
 // Error Handling Middleware========================
 
 // const err= express.createError();

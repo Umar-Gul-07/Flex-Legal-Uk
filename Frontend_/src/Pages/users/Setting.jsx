@@ -4,10 +4,9 @@ import api from '../../Utils/Axios';
 import { toast } from 'react-toastify';
 
 function Setting() {
-    const { state,dispatch } = useContext(Store);
+    const { state, dispatch } = useContext(Store);
     const { UserInfo } = state;
 
-    // Initialize state for each attribute
     const [firstName, setFirstName] = useState(UserInfo?.firstName || '');
     const [lastName, setLastName] = useState(UserInfo?.lastName || '');
     const [email, setEmail] = useState(UserInfo?.email || '');
@@ -16,46 +15,54 @@ function Setting() {
     const [education, setEducation] = useState(UserInfo?.education || '');
     const [expertise, setExpertise] = useState(UserInfo?.expertise || '');
     const [practiceArea, setPracticeArea] = useState(UserInfo?.practiceArea || '');
+    const [image, setImage] = useState(null);  // New state for image
 
     // Handle form submission
-    const handleSubmit =async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Call the API to update user data
-        const data = {
-            firstName,
-            lastName,
-            email,
-            address,
-            cell,
-            education,
-            expertise,
-            practiceArea,
+
+        // Create form data object
+        const formData = new FormData();
+        formData.append('firstName', firstName);
+        formData.append('lastName', lastName);
+        formData.append('email', email);
+        formData.append('address', address);
+        formData.append('cell', cell);
+        formData.append('education', education);
+        formData.append('expertise', expertise);
+        formData.append('practiceArea', practiceArea);
+
+        // Append image if selected
+        if (image) {
+            formData.append('image', image);
         }
+
         try {
-            const response = await api.patch('',data)
+            const response = await api.patch(`/lawyer/update/${UserInfo._id}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+
             localStorage.removeItem('UserInfo');
-            dispatch({ type: 'ClearUserInfo', payload: null })
+            dispatch({ type: 'ClearUserInfo', payload: null });
 
             dispatch({
                 type: "UserLoggedIn",
-                payload: response.data, // Store only the necessary data
+                payload: response.data,
             });
-            // Storing the extracted user data in local storage
             localStorage.setItem("UserInfo", JSON.stringify(response.data));
-            toast.success("Data Updated SuccessFully")
+            toast.success("Data Updated Successfully");
 
         } catch (error) {
-            
-            toast.error(error.message)
+            toast.error(error.message);
         }
-
     };
 
     return (
         <>
             <div className="page-content">
                 <div className="container-fluid">
-                    {/* start page title */}
                     <div className="row">
                         <div className="col-12">
                             <div className="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -63,7 +70,6 @@ function Setting() {
                             </div>
                         </div>
                     </div>
-                    {/* end page title */}
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="card">
@@ -149,6 +155,15 @@ function Setting() {
                                                             onChange={(e) => setPracticeArea(e.target.value)}
                                                         />
                                                     </div>
+                                                    <div className="form-group mb-4">
+                                                        <label htmlFor="input-image">Profile Image</label>
+                                                        <input
+                                                            id="input-image"
+                                                            type="file"
+                                                            className="form-control"
+                                                            onChange={(e) => setImage(e.target.files[0])}  // Handle image input
+                                                        />
+                                                    </div>
                                                     <div className="form-group mb-0">
                                                         <button type="submit" className="btn btn-primary">Update</button>
                                                     </div>
@@ -160,7 +175,6 @@ function Setting() {
                             </div>
                         </div>
                     </div>
-                    {/* end row */}
                 </div>
             </div>
         </>
