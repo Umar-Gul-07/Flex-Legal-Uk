@@ -9,10 +9,7 @@ import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
-<<<<<<< HEAD
-=======
 import Registration from "./Pages/website/Registration";  
->>>>>>> ba904c10267e8e27df0beeec66a52b48cc3f9d66
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
 import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
@@ -24,7 +21,6 @@ import UserMain from "./Pages/users/Main";
 import AdminProtected from "./Security/AdminProtected";
 import AttorneyProtected from "./Security/AttorneyProtected";
 import Setting from "./Pages/users/Setting";
-import Registration from "./Pages/website/Registration";
 
 function App() {
   return (
@@ -49,13 +45,9 @@ function App() {
 
           <Route path='*' element={<PageNotFound404 />} />
 
-
-
           {/* User Routes */}
           <Route path='/user/dashboard' element={<AttorneyProtected><UserMain><UserDashboard/></UserMain></AttorneyProtected>} />
           <Route path='/user/settings' element={<AttorneyProtected><UserMain><Setting/></UserMain></AttorneyProtected>} />
-
-
 
           {/* Admin Routes */}
           <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />
