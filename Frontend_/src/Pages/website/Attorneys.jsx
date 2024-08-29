@@ -4,6 +4,7 @@ import PageTitle from './include/PageTitle';
 import { Link } from 'react-router-dom';
  import api from '../../Utils/Axios';
 import { toast } from 'react-toastify';
+import { server_ip } from '../../Utils/Data';
 
 function Attorneys({ title }) {
  
@@ -52,7 +53,11 @@ function Attorneys({ title }) {
                     <div className="team-thumb">
                       <div className="thumb-image">
                         <img
+<<<<<<< HEAD
                           src={attorney.profileImage || '/assets/website/images/ahmi2.jpg'}
+=======
+                          src={`${server_ip}/${attorney.image}` || '/assets/website/images/team/team-img1.jpg'}
+>>>>>>> ba904c10267e8e27df0beeec66a52b48cc3f9d66
                           className="animate"
                           alt={`${attorney.firstName} ${attorney.lastName}`}
                         />

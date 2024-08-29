@@ -14,9 +14,8 @@ router.get('/getUser/:id', lawyerController.getLawyer)
 router.post('/register', emailAndPasswordValidation, validate, lawyerController.registerLawyer);  
 router.delete('/delete/:id',  lawyerController.deleteDocById);  
  
-router.patch('/upload/image/:id', upload.single('image'), lawyerController.uploadImage);
+router.patch('/update/:id', upload.single('image'), lawyerController.updateLawyerWithImage);
 
-router.patch('/update/:id', lawyerController.update)
 router.patch('/change-password/:id', lawyerController.updatePassword)
 
 export default router;

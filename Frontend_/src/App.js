@@ -9,6 +9,10 @@ import About from "./Pages/website/About";
 import Services from "./Pages/website/Services";
 import Contact from "./Pages/website/Contact";
 import Login from "./Pages/website/Login";
+<<<<<<< HEAD
+=======
+import Registration from "./Pages/website/Registration";  
+>>>>>>> ba904c10267e8e27df0beeec66a52b48cc3f9d66
 import Attorneys from "./Pages/website/Attorneys";
 import AttorneyDetails from "./Pages/website/AttorneyDetails";
 import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";

@@ -1,11 +1,15 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
 import PageTitle from './include/PageTitle';
+<<<<<<< HEAD
 import StripeCheckout from "react-stripe-checkout";
 import api from '../../Utils/Axios'
 import { toast } from "react-toastify";
 
 
+=======
+import { server_ip } from '../../Utils/Data';
+>>>>>>> ba904c10267e8e27df0beeec66a52b48cc3f9d66
 
 function AttorneyDetails({ title }) {
     const location = useLocation();
@@ -38,6 +42,7 @@ function AttorneyDetails({ title }) {
                     <div className="attorneytop">
                         <div className="row">
                             <div className="col-md-4 col-sm-4">
+<<<<<<< HEAD
                                 <img src="/assets/website/images/team/team-img1.jpg" className="lawimg" alt="" />
 
 
@@ -54,6 +59,10 @@ function AttorneyDetails({ title }) {
                                   />
 
 
+=======
+                                <img src={`${server_ip}/${object.image}`} className="lawimg" alt="" />
+                                <button className='btn btn-danger' style={{marginTop:"30px"}}>Hire me</button>
+>>>>>>> ba904c10267e8e27df0beeec66a52b48cc3f9d66
                             </div>
                             <div className="col-md-8 col-sm-8">
                                 <h2>{object.firstName} {object.lastName}</h2>

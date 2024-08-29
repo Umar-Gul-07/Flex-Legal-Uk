@@ -22,5 +22,6 @@ const teamMembers = [
    
 ];
 
+const server_ip = 'http://localhost:800'
 
-export { ContactInfo, teamMembers}
+export { ContactInfo, teamMembers, server_ip}
