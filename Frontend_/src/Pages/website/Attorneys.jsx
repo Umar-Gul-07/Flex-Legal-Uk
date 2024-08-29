@@ -52,7 +52,7 @@ function Attorneys({ title }) {
                     <div className="team-thumb">
                       <div className="thumb-image">
                         <img
-                          src={attorney.profileImage || '/assets/website/images/team/team-img1.jpg'}
+                          src={attorney.profileImage || '/assets/website/images/ahmi2.jpg'}
                           className="animate"
                           alt={`${attorney.firstName} ${attorney.lastName}`}
                         />
