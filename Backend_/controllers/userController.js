@@ -52,11 +52,12 @@ class UserController {
     }
   };
 
+  //delete user==========================================
   static deleteDocById = async (req, res) => {
     try {
       const result = await user.findByIdAndDelete(req.params.id);
-      res.redirect("/student");
-    } catch (error) {
+      result.save();
+     } catch (error) {
       next(error);
     }
   };
