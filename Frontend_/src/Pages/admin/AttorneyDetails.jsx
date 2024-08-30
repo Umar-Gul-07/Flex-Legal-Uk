@@ -1,5 +1,6 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom';
+import { server_ip } from '../../Utils/Data';
 
 function AttorneyDetails() {
     const location = useLocation();
@@ -18,14 +19,14 @@ function AttorneyDetails() {
                             <div className="card mx-n4 mt-n4 bg-info-subtle">
                                 <div className="card-body">
                                     <div className="text-center mb-4">
-                                        <img
-                                            src="/assets/admin/images/users/avatar-6.jpg"
-                                            alt=""
-                                            className="avatar-md rounded-circle mx-auto d-block"
-                                        />
+                                        {object.image ?
+                                            <img src={`${server_ip}/${object.image}`} className="lawimg" alt="" />
+                                            :
+                                            <img src={`/assets/website/images/avatar-1.jpg`} className="lawimg" alt="" />
+                                        }
                                         <h5 className="mt-3 mb-1">{object.firstName} {object.lastName}</h5>
                                         <p className="text-muted mb-3">{object.expertise}</p>
-                                       
+
                                     </div>
                                     <div className="d-flex align-items-center">
                                         <ul className="list-unstyled hstack gap-3 mb-0 flex-grow-1">
@@ -35,9 +36,9 @@ function AttorneyDetails() {
                                             <li>
                                                 <i className="bx bx-box align-middle" /> {object.email}
                                             </li>
-                                           
+
                                         </ul>
-                                    
+
                                     </div>
                                 </div>
                             </div>
@@ -66,7 +67,7 @@ function AttorneyDetails() {
                                                 </div>
                                             </div>
                                         </li>
-                                       
+
                                         <li>
                                             <div className="d-flex">
                                                 <i className="bx bx-user font-size-18 text-primary" />
@@ -85,8 +86,8 @@ function AttorneyDetails() {
                                                 </div>
                                             </div>
                                         </li>
-                                    
-                                      
+
+
                                     </ul>
                                 </div>
                             </div>
@@ -122,12 +123,12 @@ function AttorneyDetails() {
                                                         <h6 className="font-size-14 mb-1">
                                                             {object.education}
                                                         </h6>
-                                                       
+
                                                     </div>
                                                 </div>
                                             </div>
                                         </li>
-                                        
+
                                     </ul>
                                 </div>
                             </div>
@@ -138,14 +139,14 @@ function AttorneyDetails() {
                                 <div className="col-xl-4">
                                     <div className="card">
                                         <div className="card-body">
-                                        <h6 className="font-size-14 mb-1">
-                                                            {object.practiceArea}
-                                                        </h6>
+                                            <h6 className="font-size-14 mb-1">
+                                                {object.practiceArea}
+                                            </h6>
                                         </div>
-                                      
+
                                     </div>
                                 </div>
-                            
+
                                 {/*end col*/}
                             </div>
                             {/*end row*/}

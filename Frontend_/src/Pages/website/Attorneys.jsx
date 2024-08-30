@@ -77,11 +77,11 @@ function Attorneys({ title }) {
                                     <Link to={`/attorney-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}>
                                         <div className="team-thumb">
                                             <div className="thumb-image">
-                                                <img
-                                                    src={`${server_ip}/${attorney.image}` || '/assets/website/images/team/team-img1.jpg'}
-                                                    className="animate"
-                                                    alt={`${attorney.firstName} ${attorney.lastName}`}
-                                                />
+                                                {attorney.image?
+                                                <img src={`${server_ip}/${attorney.image}`} className="lawimg" alt="" />
+                                                :
+                                                <img src={`/assets/website/images/avatar-1.jpg`} className="lawimg" alt="" />
+                                }
                                             </div>
                                             <h4>{attorney.firstName} {attorney.lastName}</h4>
                                             <h5>Attorney</h5>
