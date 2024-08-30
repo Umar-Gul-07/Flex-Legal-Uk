@@ -45,13 +45,9 @@ function App() {
 
           <Route path='*' element={<PageNotFound404 />} />
 
-
-
           {/* User Routes */}
           <Route path='/user/dashboard' element={<AttorneyProtected><UserMain><UserDashboard/></UserMain></AttorneyProtected>} />
           <Route path='/user/settings' element={<AttorneyProtected><UserMain><Setting/></UserMain></AttorneyProtected>} />
-
-
 
           {/* Admin Routes */}
           <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />

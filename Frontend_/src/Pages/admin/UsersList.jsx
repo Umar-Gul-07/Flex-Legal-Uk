@@ -40,7 +40,7 @@ function Users() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading state while fetching data
+    return <div>Loading...</div>;  
   }
 
   return (

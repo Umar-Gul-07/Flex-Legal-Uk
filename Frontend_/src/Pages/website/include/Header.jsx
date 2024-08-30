@@ -66,7 +66,7 @@ function Header() {
 
               <li>
                 <span className="calltxt">
-                  <i className="fa fa-phone" aria-hidden="true" /> {ContactInfo.contact_phone}
+                  <i className="fa fa-phone" aria-hidden="true" /> { "+44 7460 459678"}
                 </span>
               </li>
             </ul>

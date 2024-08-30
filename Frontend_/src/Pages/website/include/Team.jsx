@@ -19,20 +19,20 @@ function Team() {
                         <div className="col-md-3 col-sm-6">
                             <div className="team-thumb">
                                 <div className="thumb-image">
-                                    <img src="/assets/website/images/team/team-img1.jpg" className="animate" alt="Team Member 1" />
+                                    <img src="/assets/website/images/ahmi.jpg" className="animate" alt="Team Member 1" />
                                 </div>
-                                <h4>JOHN DOE</h4>
-                                <h5>Network Coordinator</h5>
+                                <h4>Ahmad Gul</h4>
+                                <h5>CEO</h5>
                             </div>
                         </div>
                         {/* Team Member 2 */}
                         <div className="col-md-3 col-sm-6">
                             <div className="team-thumb">
                                 <div className="thumb-image">
-                                    <img src="/assets/website/images/team/team-img2.jpg" className="animate" alt="Team Member 2" />
+                                    <img src="/assets/website/images/shami.jpg" className="animate" alt="Team Member 2" />
                                 </div>
-                                <h4>JASON DOE</h4>
-                                <h5>Client Relations</h5>
+                                <h4>Shomi</h4>
+                                <h5> Network Coordinator</h5>
                             </div>
                         </div>
                         {/* Team Member 3 */}
@@ -42,7 +42,7 @@ function Team() {
                                     <img src="/assets/website/images/team/team-img3.jpg" className="animate" alt="Team Member 3" />
                                 </div>
                                 <h4>JANE DOE</h4>
-                                <h5>Legal Advisor</h5>
+                                <h5>Legal Advisor </h5>
                             </div>
                         </div>
                         {/* Team Member 4 */}

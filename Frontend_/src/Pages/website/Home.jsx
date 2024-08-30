@@ -46,7 +46,7 @@ function Home() {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-4">
-                            <img src="/assets/website/images/about-us.jpg" alt="About Us" />
+                            <img src="/assets/website/images/ahmi2.jpg" alt="About Us" />
                         </div>
                         <div className="col-md-8">
                             <div className="stcontent">
