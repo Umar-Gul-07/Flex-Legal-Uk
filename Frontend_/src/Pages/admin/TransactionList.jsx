@@ -139,7 +139,7 @@ const Main = () => {
                         <th>#</th>
                         <th>Amount (£)</th>
                         <th>Date</th>
-                        <th>User/Card Number</th>
+                        <th>Card Number</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -151,9 +151,9 @@ const Main = () => {
                             ? new Date(transaction.createdAt)
                             : null;
 
-                          const transactionUser = transaction.firstName
+                          const transactionUser = transaction.cardNumber
                             ? transaction.firstName
-                            : "No user info";
+                            : "4242424242424242";
 
                           return (
                             <tr key={index}>
