@@ -8,6 +8,7 @@ import authentication from './routes/authentication.js'
 import stripe from 'stripe';
 import payment from './routes/payment.js'
 import cors from 'cors'
+import Rating from './routes/rating.js';
 
 
  
@@ -52,6 +53,8 @@ app.use('/user', user);
 app.use('/lawyer', lawyer)
 app.use('/payments', payment);
 app.use('/auth', authentication)
+app.use('/rating', Rating)
+
  
 // Start the server================
 app.listen(port, () => {

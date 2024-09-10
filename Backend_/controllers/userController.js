@@ -53,15 +53,22 @@ class UserController {
   };
 
   //delete user==========================================
-  static deleteDocById = async (req, res) => {
+  static deleteDocById = async (req, res, next) => {
     try {
       const result = await user.findByIdAndDelete(req.params.id);
-      result.save();
-     } catch (error) {
-      next(error);
+  
+      if (!result) {
+        return res.status(404).json({ message: "Document not found" });
+      }
+  
+      res.status(200).json({ message: "Document deleted successfully" });
+    } catch (error) {
+      next(error);  
     }
   };
+  
 
+  //========================================================
   static get_all_information = async (req, res) => {
     try {
       const users = await user.find();

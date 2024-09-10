@@ -1,88 +1,121 @@
-import { v4 as uuidv4 } from 'uuid';
-import PaymentModel from '../models/paymentModel.js';
-import UserModel from '../models/userModel.js';
-import createError from '../utils/error.js';
-import dotenv from 'dotenv';
+import { v4 as uuidv4 } from "uuid";
+import stripe from "stripe";
+import PaymentModel from "../models/paymentModel.js";
+import UserModel from "../models/userModel.js";
+import dotenv from "dotenv";
+import { fail } from "assert";
 
 dotenv.config();
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-// const stripeInstance = stripe(stripeSecretKey);
+// const stripeSecretKey = process.env.stripe_Secret_Key;
+const stripeSecretKey =
+  "sk_test_51OGbliKue2i3LW4N4ir7njHXaj35PLAJqZnFwZrhbsZRXc4JFAwInE9cpYmW8SNOREcZvFthHKY9Z3rft9vWT9FS00y6K6gRWE";
+const stripeInstance = stripe(stripeSecretKey);
 
 class PaymentController {
-  static async createPayment(req, res, next) {
-    // ... (existing code for createPayment)
-  }
+  // Method to create a payment
+  // static async createPayment(req, res, next) {
+  //   const { token, amount, userId } = req.body;
 
-  // static async checkout(req, res) {
-  //   const { token, data, id } = req.body;
   //   try {
+  //     // 1. Create a customer with Stripe using token data (email, card info)
   //     const customer = await stripeInstance.customers.create({
   //       email: token.email,
-  //       source: token.id
+  //       source: token.id,
   //     });
 
-  //     const key = uuid();
+  //     // 2. Charge the customer for the specified amount
   //     const charge = await stripeInstance.charges.create({
-  //       amount: data.price * 100,
-  //       currency: 'usd',
+  //       amount,
+  //       currency: "pounds",  // change this to GBP or the desired currency if needed
   //       customer: customer.id,
   //       receipt_email: token.email,
-  //       description: `Hired a lawyer for ${data.service}`,
-  //       key: key,
+  //       description: "Payment Description",
   //     });
 
-  //     const user = await UserModel.findOne({ _id: id });
-
-  //     user.hiredLawyer = {
-  //       lawyerId: data.lawyerId,
-  //       service: data.service,
-  //       paymentId: charge.id,  
-  //     };
-
-  //     const savedUser = await user.save();
-
-  //     // Create a new payment document
-  //     const payment = new PaymentModel({
-  //       userId: id,
-  //       lawyerId: data.lawyerId,
-  //       amount: data.price,
-  //       status: 'Completed',  
+  //     // 3. Save the payment details to the database (MongoDB via PaymentModel)
+  //     const paymentId = uuidv4(); // Generate a unique payment ID
+  //     const newPayment = new PaymentModel({
+  //       paymentId,
+  //       userId,           // Associate the payment with a user
+  //       amount,
+  //       currency: "usd",  // Change if needed
+  //       paymentStatus: charge.status, // Save the payment status (e.g., succeeded)
+  //       receiptUrl: charge.receipt_url, // Save the receipt URL
+  //       description: "Payment for services", // Can customize as needed
   //     });
 
-      
-  //     const result = await payment.save();
+  //     await newPayment.save(); // Save payment to DB
 
-  //     res.status(200).json({ success: true, message: 'Payment and lawyer hiring successful', user: savedUser, payment: result });
+  //     // 4. Optionally, update user's payment history in UserModel
+  //     await UserModel.findByIdAndUpdate(userId, {
+  //       $push: { paymentHistory: paymentId },
+  //     });
+
+  //     // 5. Send success response with the charge and payment data
+  //     res.status(200).json({ success: true, charge, payment: newPayment });
   //   } catch (error) {
-  //     console.error('Error in checkout:', error);
-  //     res.status(400).json({ success: false, error: 'Payment Failed' });
+  //     console.error("Payment error:", error);
+  //     res.status(500).json({ error: "Payment failed. Please try again." });
   //   }
   // }
 
-  static checkout=async(req,res)=>{  
-    const {token,data,id}=req.body
+  static async checkout(req, res) {
+    const { token, amount } = req.body;
+
+    console.log("Data here");
+
+    console.log(req.body.lawyerId);
+
+    if (!token || !amount || amount <= 0) {
+      return res.status(400).json({ error: "Invalid request data" });
+    }
+
     try {
-      const customer=await stripe.customers.create({
-        email:token.email,
-        source:token.id
-      })
-      const key=uuidv4()
-      const charge = await stripeSecretKey.charges.create({
-        amount: data.price * 100,
+      const customer = await stripeInstance.customers.create({
+        email: token.email,
+        source: token.id,
+      });
+
+      const charge = await stripeInstance.charges.create({
+        amount,
         currency: "usd",
         customer: customer.id,
         receipt_email: token.email,
-        description: `Purchased the ${data.name}`,
-        key: key, 
+        description: "Payment Description",
       });
-      // const user=await User.findOne({_id:id})
-      // user.paidCourse=data._id
-      // const save= await  user.save()
-      res.status(200).send(charge)
+
+      const payment = new PaymentModel({
+        userId: req.body.userId,
+        lawyerId: req.body.lawyerId,
+        amount: amount / 100,
+        status: "Completed",
+      });
+      await payment.save();
+
+      res.status(200).json(charge);
     } catch (error) {
-     res.status(400).json({ error: 'Payment Failed' });    }
+      console.error("Payment Error:", error);
+      res.status(400).json({ error: "Payment Failed" });
+    }
   }
+
+  // get transictions api
+
+  static getTransaction = async (req, res, next) => {
+    try {
+      const transictions = req;
+      if (!transictions) {
+        res.status(2001).json({ success: fail, message: "No payment found" });
+      } else {
+        console.error("Error fetching Lawyer data:", error);
+        res.status(500).json({ success: false, message: "Internal server error" });
+      }
+    } catch (err) {
+      next(err);
+     
+    }
+  };
 }
 
 export default PaymentController;

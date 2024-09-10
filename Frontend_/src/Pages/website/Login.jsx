@@ -26,18 +26,16 @@ function Login({ title }) {
 
             if (response.data.success) {
                 const userType = response.data.userType;
-                const userDocument = response.data.userDocument._doc; // Access the actual data under _doc
+                const userDocument = response.data.userDocument._doc;  
 
                 console.log("response")
                 console.log(response)
 
-                // Dispatching the extracted user data
-                dispatch({
+                 dispatch({
                     type: "UserLoggedIn",
-                    payload: userDocument, // Store only the necessary data
+                    payload: userDocument,  
                 });
 
-                // Storing the extracted user data in local storage
                 localStorage.setItem("UserInfo", JSON.stringify(userDocument));
 
                 if (response.data.userDocument._doc.isAdmin) {

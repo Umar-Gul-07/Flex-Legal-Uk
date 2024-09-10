@@ -51,10 +51,10 @@ function Footer() {
                                     <h3 className="footer-lwf-title">Contact Info</h3>
                                     <ul className="footer-contact">
                                         <li>
-                                            <i className="fa fa-phone" /> { "+44 7460 459678"}
+                                            <i className="fa fa-phone" /> {ContactInfo.contact_phone}
                                         </li>
                                         <li>
-                                            <i className="fa fa-envelope" /> {"ahmi1998@gmail.com"}
+                                            <i className="fa fa-envelope" /> {ContactInfo.contact_email}
                                         </li>
                                         <li>
                                             <i className="fa fa-fax" /> {ContactInfo.contact_phone}
@@ -80,25 +80,7 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-                {/* footer top end */}
-                {/* copyright start */}
-                <div className="footer-bottom-area">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-md-12 col-md-6">
-                                  <span>Lawyer &amp; Attorney</span>. All Rights
-                                Reserved
-                            </div>
-                            <div className="col-md-12 col-md-6 text-right">
-                                Design &amp; Development By:{" "}
-                                <Link href="#" target="_blank">
-                                     
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* copyright end */}
+                 
             </div>
 
 

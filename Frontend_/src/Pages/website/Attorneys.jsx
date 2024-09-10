@@ -77,11 +77,11 @@ function Attorneys({ title }) {
                                     <Link to={`/attorney-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}>
                                         <div className="team-thumb">
                                             <div className="thumb-image">
-                                                <img
-                                                    src={`${server_ip}/${attorney.image}` || '/assets/website/images/team/team-img1.jpg'}
-                                                    className="animate"
-                                                    alt={`${attorney.firstName} ${attorney.lastName}`}
-                                                />
+                                                {attorney.image ?
+                                                    <img src={`${server_ip}/${attorney.image}`} className="img-fluid lawimg" alt="" />
+                                                    :
+                                                    <img src={`/assets/website/images/avatar-1.jpg`} className="img-fluid lawimg" alt="" />
+                                                }
                                             </div>
                                             <h4>{attorney.firstName} {attorney.lastName}</h4>
                                             <h5>Attorney</h5>
@@ -97,6 +97,25 @@ function Attorneys({ title }) {
                     </div>
                 </div>
             </div>
+            <style>{`
+                .thumb-image {
+                    width: 100%;
+                    height: 300px;
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #f8f9fa;  
+                    aspect-ratio: 1 / 2;  
+                }
+
+                .thumb-image img {
+                    width: 100%;
+                    height: auto;
+                    object-fit: cover;
+                    aspect-ratio: 1 / 2;  
+                }
+            `}</style>
         </>
     );
 }

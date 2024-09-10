@@ -1,7 +1,7 @@
 const ContactInfo = {
-    contact_phone: "+923029677678",
-    contact_email: "zararanwar1234321@gmail.com",
-    address: "Abbottabad Khyber Pakhtun Khowa",
+    contact_phone: "+44 7460 459678",
+    contact_email: "ahmad.gul@study.beds.ac.uk",
+    address: "40 crescent road luton lu2 oahbedford, England, UK",
     facebook: "https://facebook.com",
     twitter: "https://facebook.com",
     linkedin: "https://facebook.com",

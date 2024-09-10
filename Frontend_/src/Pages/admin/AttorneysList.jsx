@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import api from '../../Utils/Axios';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import api from "../../Utils/Axios";
 
 function AttorneysList() {
-  const [attorneys, setAttorneys] = useState([]); 
-  const [loading, setLoading] = useState(true); // New state for loading
+  const [attorneys, setAttorneys] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const get_all_attorneys = async () => {
     try {
@@ -17,16 +17,18 @@ function AttorneysList() {
         toast.error("Unexpected response format");
       }
     } catch (error) {
-      // toast.error(error.message || "Failed to fetch attorneys");
+      toast.error(error.message || "Failed to fetch attorneys");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
   const DeleteAttorney = async (id) => {
     try {
       await api.delete(`/lawyer/delete/${id}`);
-      setAttorneys(prevAttorneys => prevAttorneys.filter(attorney => attorney._id !== id));
+      setAttorneys((prevAttorneys) =>
+        prevAttorneys.filter((attorney) => attorney._id !== id)
+      );
       toast.success("Attorney Deleted");
     } catch (error) {
       toast.error(error.message || "Failed to delete attorney");
@@ -38,7 +40,7 @@ function AttorneysList() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading state while fetching data
+    return <div>Loading...</div>;
   }
 
   return (
@@ -73,7 +75,9 @@ function AttorneysList() {
                         attorneys.map((attorney) => (
                           <tr key={attorney._id} style={{ cursor: "pointer" }}>
                             <td style={{ width: 80 }}>{attorney._id}</td>
-                            <td>{attorney.firstName} {attorney.lastName}</td>
+                            <td>
+                              {attorney.firstName} {attorney.lastName}
+                            </td>
                             <td>{attorney.email}</td>
                             <td>{attorney.cell}</td>
                             <td>{attorney.address}</td>
@@ -81,7 +85,9 @@ function AttorneysList() {
                               <Link
                                 className="btn btn-outline-primary btn-sm edit"
                                 title="View"
-                                to={`/admin/attorneys-details?data=${encodeURIComponent(JSON.stringify(attorney))}`}
+                                to={`/admin/attorneys-details?data=${encodeURIComponent(
+                                  JSON.stringify(attorney)
+                                )}`}
                               >
                                 <i className="fas fa-eye" />
                               </Link>
@@ -98,7 +104,9 @@ function AttorneysList() {
                       ) : (
                         <tr>
                           <td colSpan="6">
-                            <p className='text-danger text-center'>No Attorneys Found</p>
+                            <p className="text-danger text-center">
+                              No Attorneys Found
+                            </p>
                           </td>
                         </tr>
                       )}
@@ -107,9 +115,12 @@ function AttorneysList() {
                 </div>
               </div>
             </div>
-          </div> {/* end col */}
-        </div> {/* end row */}
-      </div> {/* container-fluid */}
+          </div>{" "}
+          {/* end col */}
+        </div>{" "}
+        {/* end row */}
+      </div>{" "}
+      {/* container-fluid */}
     </div>
   );
 }

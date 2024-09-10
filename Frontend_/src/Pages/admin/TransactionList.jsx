@@ -1,101 +1,191 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { teamMembers } from '../../Utils/Data'
-import api from '../../Utils/Axios'
-import { toast } from 'react-toastify'
+import { useContext, useEffect, useState } from "react";
+import { Store } from "../../Utils/Store";
+import api from "../../Utils/Axios";
 
-function TransactionList() {
-  const [transactions, setTransactions] = useState([])
+const Main = () => {
+  const [information, setInformation] = useState([]);
+  const { state } = useContext(Store);
+  const { UserInfo } = state;
 
-  const get_all_transactions = async () => {
+  const get_all_information = async () => {
     try {
-      const { data } = await api.get(`get_all_transactions/`)
-      setTransactions(data)
+      const { data } = await api.get(`/user/get_all_information`);
+      setInformation(data);
+      console.log(data);
     } catch (error) {
-      toast.error(error.message)
+      console.error("Failed to fetch information", error);
     }
-  }
+  };
 
+  useEffect(() => {
+    get_all_information();
+  }, []);
 
-  const DeleteTransaction = async (id) => {
-    try {
-      const data = { id: id }
-      const result = await api.post('', data)
-      setTransactions(transactions.filter(transaction => transaction.id !== id))
-      toast.success("Transaction Deleted")
-    } catch (error) {
-      toast.error(error.message)
-    }
-  }
   return (
     <>
-      <div className="page-content">
-        <div className="container-fluid">
-          {/* start page title */}
-          <div className="row">
-            <div className="col-12">
-              <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 className="mb-sm-0 font-size-18">Transaction Lists</h4>
-              </div>
-            </div>
-          </div>
-          {/* end page title */}
-          <div className="row">
-            <div className="col-12">
-              <div className="card">
-                <div className="card-body">
-                  <h4 className="card-title">Transaction</h4>
-                  <div className="table-responsive">
-                    <table className="table table-editable table-nowrap align-middle table-edits">
-                      <thead>
-                        <tr style={{ cursor: "pointer" }}>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Age</th>
-                          <th>Gender</th>
-                          <th>Edit</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        {teamMembers.map((object) => (
-                          <tr data-id={1} style={{ cursor: "pointer" }}>
-                            <td data-field="id" style={{ width: 80 }}>
-                              {object.id}
-                            </td>
-                            <td data-field="name">{object.name}</td>
-                            <td data-field="age">24</td>
-                            <td data-field="gender">{object.title}</td>
-                            <td style={{ width: 100 }}>
-                              <Link to="#"
-                                className="btn btn-outline-secondary btn-sm edit"
-                                title="Edit"
-                              >
-                                <i className="fas fa-pencil-alt" />
-                              </Link>
-                              <Link onClick={() => { DeleteTransaction(object.id) }}
-                                className="btn btn-outline-danger btn-sm edit"
-                                title="delete"
-                              >
-                                <i className="fas fa-trash" />
-                              </Link>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="row justify-content-center">
+                <div className="col-lg-4">
+                  <div className="d-flex">
+                    <div className="flex-shrink-0 me-3">
+                      <img
+                        src="/assets/admin/images/users/avatar-1.jpg"
+                        alt=""
+                        className="avatar-md rounded-circle img-thumbnail"
+                      />
+                    </div>
+                    <div className="flex-grow-1 align-self-center">
+                      <div className="text-muted">
+                        <p className="mb-2">
+                          Welcome to <b>{UserInfo.firstName}</b> Dashboard
+                        </p>
+                        <h4>{UserInfo.email}</h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>{" "}
-            {/* end col */}
-          </div>{" "}
+              {/* end row */}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="row">
+        <div className="col-xl-12">
+          <div className="row">
+            <div className="col-sm-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title rounded-circle bg-primary-subtle text-primary font-size-18">
+                        <i className="bx bx-copy-alt" />
+                      </span>
+                    </div>
+                    <h5 className="font-size-14 mb-0">Total Transactions</h5>
+                  </div>
+                  <div className="text-muted mt-4">
+                    <h4>
+                      {information.transactions &&
+                      Array.isArray(information.transactions)
+                        ? information.transactions.length
+                        : 0}
+                      <i className="mdi mdi-inbox ms-1 text-success" />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-sm-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title rounded-circle bg-primary-subtle text-primary font-size-18">
+                        <i className="bx bx-copy-alt" />
+                      </span>
+                    </div>
+                    <h5 className="font-size-14 mb-0">Total Users</h5>
+                  </div>
+                  <div className="text-muted mt-4">
+                    <h4>
+                      {information.users && Array.isArray(information.users)
+                        ? information.users.length
+                        : 0}
+                      <i className="mdi mdi-inbox ms-1 text-success" />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-sm-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title rounded-circle bg-primary-subtle text-primary font-size-18">
+                        <i className="bx bx-copy-alt" />
+                      </span>
+                    </div>
+                    <h5 className="font-size-14 mb-0">Total Attorneys</h5>
+                  </div>
+                  <div className="text-muted mt-4">
+                    <h4>
+                      {information.attorneys &&
+                      Array.isArray(information.attorneys)
+                        ? information.attorneys.length
+                        : 0}
+                      <i className="mdi mdi-inbox ms-1 text-success" />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col-xl-12">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="font-size-14 mb-4">Transaction Details</h5>
+                  <table className="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Amount (£)</th>
+                        <th>Date</th>
+                        <th>User/Card Number</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {information.transactions &&
+                      Array.isArray(information.transactions) &&
+                      information.transactions.length > 0 ? (
+                        information.transactions.map((transaction, index) => {
+                          const transactionDate = transaction.createdAt
+                            ? new Date(transaction.createdAt)
+                            : null;
+
+                          const transactionUser = transaction.firstName
+                            ? transaction.firstName
+                            : "No user info";
+
+                          return (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>£{transaction.amount}</td>
+                              <td>
+                                {transactionDate
+                                  ? transactionDate.toLocaleDateString()
+                                  : "Invalid date"}
+                              </td>
+                              <td>{transactionUser}</td>
+                            </tr>
+                          );
+                        })
+                      ) : (
+                        <tr>
+                          <td colSpan="4" className="text-center">
+                            No transactions available
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
           {/* end row */}
-        </div>{" "}
-        {/* container-fluid */}
+        </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default TransactionList
+export default Main;

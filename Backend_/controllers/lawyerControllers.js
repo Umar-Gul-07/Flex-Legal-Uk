@@ -140,12 +140,62 @@ class LawyerController {
 
 
   //edit lawyer==========================================================================
-  static editDoc = async (req, res) => {
+  static updateLawyerHiredStatus = async (req, res) => {
     try {
-      const result = await user.findById(req.params.id);
-      res.render("edit", { data: result });
+      const { lawyerId } = req.body;
+      
+      // Set isHired to true for the lawyer
+      const lawyer = await lawyerModel.findByIdAndUpdate(
+        lawyerId,
+        { isHired: true },
+        { new: true }
+      );
+      
+      res.status(200).json({ success: true, lawyer });
     } catch (error) {
-      console.log(error);
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  //update hired status==================
+  static updateHiredStatus = async (req, res) => {
+    const { lawyerId } = req.params;
+    const { isHired } = req.body;   
+  
+    try {
+       const updatedLawyer = await lawyerModel.findByIdAndUpdate(
+        lawyerId,
+        { isHired },
+        { new: true }   
+      );
+        console.log(updatedLawyer)
+      if (!updatedLawyer) {
+        return res.status(404).json({ message: 'Lawyer not found' });
+      }
+       console.log("it's here ")
+      res.json({ success: true, message: "Lawyer's hire status updated", lawyer: updatedLawyer });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  //check if hired ==================================
+  static checkIfHired = async (req, res) => {
+    const { lawyerId } = req.params;
+    const { userId } = req.query;   
+  
+    try {
+       const lawyer = await lawyerModel.findById(lawyerId);
+  
+      if (!lawyer) {
+        return res.status(404).json({ message: 'Lawyer not found' });
+      }
+  
+       const isHired = lawyer.isHired;  
+  
+      res.json({ isHired });
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to check hire status' });
     }
   };
 
@@ -232,14 +282,21 @@ class LawyerController {
 
 
   //Delete Accound============================================================
-  static deleteDocById = async (req, res) => {
+  static deleteDocById = async (req, res, next) => {
     try {
       const result = await lawyerModel.findByIdAndDelete(req.params.id);
-      res.redirect("/student");
-    } catch (error) {
-      next(error);
+  
+       if (!result) {
+        return res.status(404).json({ message: "Lawyer not found" });
+      }
+  
+       res.status(200).json({ message: "Lawyer deleted successfully" });
+    } catch (err) {
+       console.error(err);
+      next(err); 
     }
   };
+  
 
 
 
