@@ -43,7 +43,7 @@ function Login({ title }) {
                     navigate("/admin/dashboard");
                 } else if (userType === "lawyer") {
                     toast.success("Login Successful as a Lawyer");
-                    navigate("/");
+                    navigate("/user/dashboard");
                 } else if (userType === "user") {
                     toast.success("Login Successful as an User");
                     navigate("/attorneys");

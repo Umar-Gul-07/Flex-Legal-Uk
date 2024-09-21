@@ -18,7 +18,7 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "LawyerLogin":
+    case " ":
       localStorage.setItem("UserInfo", JSON.stringify(action.payload));
      return { ...state, UserInfo: action.payload };
 
