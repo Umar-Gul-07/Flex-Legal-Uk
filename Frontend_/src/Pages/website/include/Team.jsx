@@ -22,12 +22,12 @@ function Team() {
               <div className="team-thumb">
                 <div className="thumb-image">
                   <img
-                    src="/assets/website/images/ahmi.jpg"
+                    src="/assets/website/images/saghe.jpg"
                     className="animate"
                     alt="Team Member 1"
                   />
                 </div>
-                <h4>Ahmad Gul</h4>
+                <h4>Haroon Saghe</h4>
                 <h5>CEO</h5>
               </div>
             </div>
@@ -36,12 +36,12 @@ function Team() {
               <div className="team-thumb">
                 <div className="thumb-image">
                   <img
-                    src="/assets/website/images/shami.jpg"
+                    src="/assets/website/images/team/law4.jpg"
                     className="animate"
                     alt="Team Member 2"
                   />
                 </div>
-                <h4>Shomi</h4>
+                <h4>Jhon Doe</h4>
                 <h5> Network Coordinator</h5>
               </div>
             </div>

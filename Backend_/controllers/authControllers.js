@@ -7,53 +7,56 @@ const login = async (req, res, next) => {
   const { email, password } = req.body;
 
   try {
+    console.log("Login attempt for email:", email);
+    
+    // Check for Lawyer
     const foundLawyer = await lawyerModel.findOne({ email });
+    if (foundLawyer) {
+     
+      
+      const passwordMatch = await bcrypt.compare(password, foundLawyer.password);
+      console.log("Password match result:", passwordMatch);
 
-    if (!foundLawyer) {
-      const foundUser = await userModel.findOne({ email });
-
-      if (!foundUser) {
-        return next(createError(404, "User not found"));
-      }
-
-      const passwordMatch = await bcrypt.compare(password, foundUser.password);
-
-      if (passwordMatch) {
-        const { password, ...otherDetails } = foundUser;
-        return res
-          .status(200)
-          .json({
-            success: true,
-            message: "Authentication successful",
-            userType: "user",
-            userDocument: otherDetails,
-          });
-      } else {
-        return res
-          .status(401)
-          .json({ success: false, message: "Authentication failed" });
-      }
-    }
-
-    const passwordMatch = await bcrypt.compare(password, foundLawyer.password);
-
-    if (passwordMatch && foundLawyer.isLawyer) {
-      const { password, ...otherDetails } = foundLawyer;
-      return res
-        .status(200)
-        .json({
+      if (passwordMatch && foundLawyer.isLawyer) {
+        const { password, ...otherDetails } = foundLawyer;
+        return res.status(200).json({
           success: true,
-          
           message: "Authentication successful",
           userType: "lawyer",
           userDocument: otherDetails,
         });
-    } else {
-      return res
-        .status(401)
-        .json({ success: false, message: "Authentication failed" });
+      } else {
+        console.log("Password mismatch or lawyer status invalid");
+        return res.status(401).json({ success: false, message: "Authentication failed for lawyer" });
+      }
     }
+
+    // Check for User
+    const foundUser = await userModel.findOne({ email });
+    if (foundUser) {
+      
+
+      const passwordMatch = await bcrypt.compare(password, foundUser.password);
+ 
+      if (passwordMatch) {
+        const { password, ...otherDetails } = foundUser;
+        return res.status(200).json({
+          success: true,
+          message: "Authentication successful",
+          userType: "user",
+          userDocument: otherDetails,
+        });
+      } else {
+        console.log("Password mismatch for user");
+        return res.status(401).json({ success: false, message: "Authentication failed for user" });
+      }
+    }
+
+    console.log("No user or lawyer found with the given email");
+    return next(createError(404, "User not found"));
+
   } catch (err) {
+    console.error("Error during authentication process:", err);
     next(err);
   }
 };

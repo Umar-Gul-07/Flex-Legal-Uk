@@ -9,8 +9,7 @@ function About({ title }) {
             <Helmet><title>{title}</title></Helmet>
 
 
-
-            <PageTitle title={title} />
+             <PageTitle title={title} />
 
 
 

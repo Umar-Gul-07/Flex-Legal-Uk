@@ -15,7 +15,7 @@ import Rating from './routes/rating.js';
 const app = express();
 dotenv.config(); 
 
-const port = process.env.PORT || '800 '
+const port = process.env.PORT || '800'
 
 // DB Connection
 const connect = async () => {

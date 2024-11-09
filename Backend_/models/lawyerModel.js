@@ -47,7 +47,7 @@ const lawyerSchema = new Schema(
     },
     isLawyer: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     isHired: {
       type: Boolean,

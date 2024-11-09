@@ -35,7 +35,7 @@ function App() {
 
           {/* Web Routes */}
           <Route path='/' element={<WebsiteBase><Home/></WebsiteBase>} />
-          <Route path='/about' element={<WebsiteBase><About title="About Us"/></WebsiteBase>} />
+          <Route path='/about' element={<WebsiteBase><About title="Personal information"/></WebsiteBase>} />
           <Route path='/services' element={<WebsiteBase><Services title="Services"/></WebsiteBase>} />
           <Route path='/contact' element={<WebsiteBase><Contact title="Contact Us"/></WebsiteBase>} />
           <Route path='/attorneys' element={<WebsiteBase><Attorneys title="Attorneys"/></WebsiteBase>} />

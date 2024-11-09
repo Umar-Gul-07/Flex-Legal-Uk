@@ -1,9 +1,8 @@
-import lawyerModel from '../models/lawyerModel.js';
-import createError from '../utils/error.js';
+import lawyerModel from "../models/lawyerModel.js";
+import createError from "../utils/error.js";
 import nodemailer from "nodemailer";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 class LawyerController {
-
   // Send email===============================================
   static sendVerifyEmail = async (firstName, email, user_id) => {
     try {
@@ -37,21 +36,33 @@ class LawyerController {
     }
   };
 
-
-
-
   //Registeration=============================================================
   static registerLawyer = async (req, res, next) => {
     try {
-      const { firstName, lastName, email, password, confirmPassword, cell, address, education, practiceArea, expertise } = req.body;
+      const {
+        firstName,
+        lastName,
+        email,
+        password,
+        confirmPassword,
+        cell,
+        address,
+        education,
+        practiceArea,
+        expertise,
+      } = req.body;
 
       if (password !== confirmPassword) {
-        return res.status(400).json({ success: false, message: "Passwords do not match" });
+        return res
+          .status(400)
+          .json({ success: false, message: "Passwords do not match" });
       }
 
       const existingLawyer = await lawyerModel.findOne({ email });
       if (existingLawyer) {
-        return res.status(400).json({ success: false, message: "The lawyer is already exist" });
+        return res
+          .status(400)
+          .json({ success: false, message: "The lawyer is already exist" });
       }
 
       const saltRounds = 10;
@@ -70,14 +81,13 @@ class LawyerController {
       });
 
       await newLawyer.save();
-      res.status(200).json({ success: true, message: "Lawyer has been created" });
-
+      res
+        .status(200)
+        .json({ success: true, message: "Lawyer has been created" });
     } catch (err) {
       next(err);
     }
-  }
-
-
+  };
 
   //mail verification===============================================
   static verifyMail = async (req, res) => {
@@ -93,64 +103,68 @@ class LawyerController {
     }
   };
 
-
-
   // get===========================================================
   static getAllLawyers = async (req, res, next) => {
     try {
-      console.log('all Data')
       // const query = address ? { address: { $regex: new RegExp(address, 'i') } } : {};
       // const result = await lawyerModel.find(query, { password: 0, isLawyer: 0 });
-      const result = await lawyerModel.find()
+      const result = await lawyerModel.find();
 
       if (!result || result.length === 0) {
-        return res.status(404).json({ message: "Sorry, no lawyer is available." });
+        return res
+          .status(404)
+          .json({ message: "Sorry, no lawyer is available." });
       }
 
       res.status(200).json(result);
     } catch (err) {
-      console.error('Error in getAllLawyers:', err); // Log errors
-      next(createError(500, 'Internal Server Error'));
+      console.error("Error in getAllLawyers:", err); // Log errors
+      next(createError(500, "Internal Server Error"));
     }
   };
-
-
 
   // search =======================================================
   static searchLawyersByAddress = async (req, res, next) => {
     try {
       const { data } = req.body.params;
-      console.log(data)
 
       if (!address) {
-        return res.status(400).json({ success: false, message: 'Address parameter is missing' });
+        return res
+          .status(400)
+          .json({ success: false, message: "Address parameter is missing" });
       }
 
-      const result = await lawyerModel.find({ address: new RegExp(address, 'i') }, { password: 0, isLawyer: 0 });
+      const result = await lawyerModel.find(
+        { address: new RegExp(address, "i") },
+        { password: 0, isLawyer: 0 }
+      );
 
       if (result.length === 0) {
-        return res.status(404).json({ success: false, message: 'No lawyers found with the provided address' });
+        return res
+          .status(404)
+          .json({
+            success: false,
+            message: "No lawyers found with the provided address",
+          });
       }
 
       res.status(200).json(result);
     } catch (err) {
-      next(createError(500, 'Internal Server Error'));
+      next(createError(500, "Internal Server Error"));
     }
-  }
-
+  };
 
   //edit lawyer==========================================================================
   static updateLawyerHiredStatus = async (req, res) => {
     try {
       const { lawyerId } = req.body;
-      
-      // Set isHired to true for the lawyer
+
       const lawyer = await lawyerModel.findByIdAndUpdate(
         lawyerId,
         { isHired: true },
         { new: true }
       );
-      
+
       res.status(200).json({ success: true, lawyer });
     } catch (error) {
       res.status(500).json({ error: error.message });
@@ -160,42 +174,46 @@ class LawyerController {
   //update hired status==================
   static updateHiredStatus = async (req, res) => {
     const { lawyerId } = req.params;
-    const { isHired } = req.body;   
-  
+    const { isHired } = req.body;
+
     try {
-       const updatedLawyer = await lawyerModel.findByIdAndUpdate(
+      const updatedLawyer = await lawyerModel.findByIdAndUpdate(
         lawyerId,
         { isHired },
-        { new: true }   
+        { new: true }
       );
-        console.log(updatedLawyer)
+      console.log(updatedLawyer);
       if (!updatedLawyer) {
-        return res.status(404).json({ message: 'Lawyer not found' });
+        return res.status(404).json({ message: "Lawyer not found" });
       }
-       console.log("it's here ")
-      res.json({ success: true, message: "Lawyer's hire status updated", lawyer: updatedLawyer });
+      console.log("it's here ");
+      res.json({
+        success: true,
+        message: "Lawyer's hire status updated",
+        lawyer: updatedLawyer,
+      });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  };
 
   //check if hired ==================================
   static checkIfHired = async (req, res) => {
     const { lawyerId } = req.params;
-    const { userId } = req.query;   
-  
+    const { userId } = req.query;
+
     try {
-       const lawyer = await lawyerModel.findById(lawyerId);
-  
+      const lawyer = await lawyerModel.findById(lawyerId);
+
       if (!lawyer) {
-        return res.status(404).json({ message: 'Lawyer not found' });
+        return res.status(404).json({ message: "Lawyer not found" });
       }
-  
-       const isHired = lawyer.isHired;  
-  
+
+      const isHired = lawyer.isHired;
+
       res.json({ isHired });
     } catch (error) {
-      res.status(500).json({ error: 'Failed to check hire status' });
+      res.status(500).json({ error: "Failed to check hire status" });
     }
   };
 
@@ -212,7 +230,9 @@ class LawyerController {
       }
 
       // Find and update the lawyer
-      const result = await lawyerModel.findByIdAndUpdate(id, updateData, { new: true }); // { new: true } to return the updated document
+      const result = await lawyerModel.findByIdAndUpdate(id, updateData, {
+        new: true,
+      });
 
       if (!result) {
         return next(createError(404, "Lawyer not found"));
@@ -220,13 +240,12 @@ class LawyerController {
 
       res.status(200).json({
         message: "Lawyer updated successfully",
-        data: result
+        data: result,
       });
     } catch (error) {
       next(error);
     }
   };
-
 
   static updatePassword = async (req, res, next) => {
     try {
@@ -263,12 +282,16 @@ class LawyerController {
               data: foundLawyer,
             });
           } else {
-            return res.status(400).json({ message: "Current password is wrong" });
+            return res
+              .status(400)
+              .json({ message: "Current password is wrong" });
           }
         } else {
           return res
             .status(400)
-            .json({ message: "New Password and Confirm Password do not match" });
+            .json({
+              message: "New Password and Confirm Password do not match",
+            });
         }
       } else {
         return res.status(400).json({ message: "All fields are required" });
@@ -278,27 +301,21 @@ class LawyerController {
     }
   };
 
-
-
-
   //Delete Accound============================================================
   static deleteDocById = async (req, res, next) => {
     try {
       const result = await lawyerModel.findByIdAndDelete(req.params.id);
-  
-       if (!result) {
+
+      if (!result) {
         return res.status(404).json({ message: "Lawyer not found" });
       }
-  
-       res.status(200).json({ message: "Lawyer deleted successfully" });
+
+      res.status(200).json({ message: "Lawyer deleted successfully" });
     } catch (err) {
-       console.error(err);
-      next(err); 
+      console.error(err);
+      next(err);
     }
   };
-  
-
-
 
   //getLawyer====================================================
   static getLawyer = async (req, res) => {
@@ -321,13 +338,11 @@ class LawyerController {
       });
     } catch (error) {
       console.error("Error fetching Lawyer data:", error);
-      res.status(500).json({ success: false, message: "Internal server error" });
+      res
+        .status(500)
+        .json({ success: false, message: "Internal server error" });
     }
   };
-
-
 }
-
-
 
 export default LawyerController;
