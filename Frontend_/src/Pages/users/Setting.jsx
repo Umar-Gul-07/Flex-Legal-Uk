@@ -44,9 +44,6 @@ function Setting() {
                 },
             });
 
-            localStorage.removeItem('UserInfo');
-            dispatch({ type: 'ClearUserInfo', payload: null });
-
             dispatch({
                 type: "UserLoggedIn",
                 payload: response.data,

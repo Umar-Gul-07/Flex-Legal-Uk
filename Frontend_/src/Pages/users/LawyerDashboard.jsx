@@ -1,10 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Store } from "../../Utils/Store";
 import { server_ip } from "../../Utils/Data";
+import api from "../../Utils/Axios";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
-function Dashboard() {
+function LawyerDashboard() {
   const { state } = useContext(Store);
   const { UserInfo } = state;
+  const [recentMessages, setRecentMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch recent messages for the lawyer
+  useEffect(() => {
+    const fetchRecentMessages = async () => {
+      try {
+        if (UserInfo && UserInfo._id) {
+          const { data } = await api.get(`/chat/lawyer/${UserInfo._id}`);
+          setRecentMessages(data.slice(0, 5)); // Get last 5 chats
+        }
+      } catch (error) {
+        console.error("Error fetching recent messages:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecentMessages();
+  }, [UserInfo]);
+
   return (
     <>
       <div className="page-content">
@@ -37,10 +61,10 @@ function Dashboard() {
                   <ul className="list-unstyled hstack gap-3 mb-0 flex-grow-1">
                     <li>
                       <i className="bx bx-map align-middle" />{" "}
-                      {UserInfo.address}
+                      {UserInfo?.address}
                     </li>
                     <li>
-                      <i className="bx bx-box align-middle" /> {UserInfo.email}
+                      <i className="bx bx-box align-middle" /> {UserInfo?.email}
                     </li>
                   </ul>
                 </div>
@@ -58,7 +82,7 @@ function Dashboard() {
                         <div className="ms-3">
                           <h6 className="mb-1 fw-semibold">Experience:</h6>
                           <span className="text-muted">
-                            {UserInfo.expertise}
+                            {UserInfo?.expertise}
                           </span>
                         </div>
                       </div>
@@ -88,7 +112,7 @@ function Dashboard() {
                         <div className="ms-3">
                           <h6 className="mb-1 fw-semibold">Qualification:</h6>
                           <span className="text-muted">
-                            {UserInfo.education}
+                            {UserInfo?.education}
                           </span>
                         </div>
                       </div>
@@ -126,7 +150,7 @@ function Dashboard() {
                         <div className="flex-grow-1">
                           <div>
                             <h6 className="font-size-14 mb-1">
-                              {UserInfo.education}
+                              {UserInfo?.education}
                             </h6>
                           </div>
                         </div>
@@ -143,7 +167,7 @@ function Dashboard() {
                   <div className="card">
                     <div className="card-body">
                       <h6 className="font-size-14 mb-1">
-                        {UserInfo.practiceArea}
+                        {UserInfo?.practiceArea}
                       </h6>
                     </div>
                   </div>
@@ -178,7 +202,93 @@ function Dashboard() {
               </div>
             </div>
           </div>
-        </div>{" "}
+
+          {/* Recent Messages Section */}
+          <div className="row">
+            <div className="col-lg-12">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="mb-3">Recent Messages</h5>
+                  {loading ? (
+                    <div className="text-center">
+                      <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                      </div>
+                    </div>
+                  ) : recentMessages.length > 0 ? (
+                    <div className="table-responsive">
+                      <table className="table table-hover">
+                        <thead>
+                          <tr>
+                            <th>Client</th>
+                            <th>Last Message</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {recentMessages.map((chat) => (
+                            <tr key={chat._id}>
+                              <td>
+                                <div className="d-flex align-items-center">
+                                  <img
+                                    src={chat.participants?.find(p => !p.isLawyer)?.image ? 
+                                      `${server_ip}/${chat.participants.find(p => !p.isLawyer).image}` : 
+                                      "/assets/website/images/avatar-1.jpg"}
+                                    className="rounded-circle me-2"
+                                    width="40"
+                                    height="40"
+                                    alt="Client"
+                                    onError={(e) => {
+                                      e.target.src = "/assets/website/images/avatar-1.jpg";
+                                    }}
+                                  />
+                                  <div>
+                                    <h6 className="mb-0">
+                                      {chat.participants?.find(p => !p.isLawyer)?.firstName} {chat.participants?.find(p => !p.isLawyer)?.lastName}
+                                    </h6>
+                                    <small className="text-muted">
+                                      {chat.participants?.find(p => !p.isLawyer)?.email}
+                                    </small>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>
+                                <span className="text-truncate d-inline-block" style={{ maxWidth: '200px' }}>
+                                  {chat.latestMessage?.content || 'No messages yet'}
+                                </span>
+                              </td>
+                              <td>
+                                {chat.latestMessage?.createdAt ? 
+                                  new Date(chat.latestMessage.createdAt).toLocaleDateString() : 
+                                  'N/A'
+                                }
+                              </td>
+                              <td>
+                                <Link 
+                                  to={`/chat/${chat._id}`}
+                                  className="btn btn-sm btn-primary"
+                                >
+                                  <i className="bx bx-message-square me-1"></i>
+                                  Chat
+                                </Link>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="text-center text-muted">
+                      <i className="bx bx-message-square font-size-48 mb-3"></i>
+                      <p>No recent messages</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <style jsx>{`
@@ -194,4 +304,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default LawyerDashboard; 

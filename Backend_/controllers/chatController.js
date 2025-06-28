@@ -112,6 +112,44 @@ class ChatController {
     }
   };
 
+  // Get a specific chat by ID
+  static getChatById = async (req, res, next) => {
+    console.log("🔵 getChatById called for chatId:", req.params.chatId);
+    try {
+      // Validate chatId format
+      if (!req.params.chatId || req.params.chatId.length !== 24) {
+        console.warn("⚠️  Invalid chatId format:", req.params.chatId);
+        return res.status(400).json({ message: 'Invalid chat ID format' });
+      }
+
+      const chat = await Chat.findById(req.params.chatId)
+        .populate('user', '-password')
+        .populate('lawyer', '-password')
+        .populate({
+          path: 'latestMessage',
+          populate: {
+            path: 'sender',
+            select: 'firstName lastName email',
+            refPath: 'senderModel'
+          }
+        });
+
+      if (!chat) {
+        console.warn("⚠️  Chat not found for ID:", req.params.chatId);
+        return res.status(404).json({ message: 'Chat not found' });
+      }
+
+      console.log("✅ Chat found:", chat._id);
+      res.status(200).json(chat);
+    } catch (err) {
+      console.error("❌ Error in getChatById:", err);
+      if (err.name === 'CastError') {
+        return res.status(400).json({ message: 'Invalid chat ID format' });
+      }
+      next(err);
+    }
+  };
+
   // Optional: Get a specific chat directly
   static getChatByParticipants = async (req, res, next) => {
     console.log("🔵 getChatByParticipants called with:", req.params);

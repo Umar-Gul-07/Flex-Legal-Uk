@@ -91,26 +91,40 @@ function Header() {
                       <Link to="/user/dashboard">Lawyer Dashboard</Link>
                     </li>
                   ) : (
-                    <li>
-                      <span style={{ color: '#007bff', fontWeight: 'bold' }}>
-                        Welcome, {currentUser.firstName}!
-                      </span>
-                    </li>
+                    <>
+                      
+                      <li className={location.pathname === '/user/history' ? 'active' : ''}>
+                        <Link to="/user/history">My History</Link>
+                      </li>
+                    </>
                   )}
                   <li>
-                    <button 
+                    <span style={{ color: '#007bff', fontWeight: 'bold', padding: '15px 15px', display: 'inline-block' }}>
+                      Welcome, {currentUser.firstName}!
+                    </span>
+                  </li>
+                  <li>
+                    <Link 
+                      to="#"
                       onClick={handleLogout}
                       style={{
-                        background: 'none',
-                        border: 'none',
                         color: '#dc3545',
-                        cursor: 'pointer',
                         padding: '15px 15px',
-                        fontSize: '14px'
+                        display: 'inline-block',
+                        textDecoration: 'none',
+                        fontWeight: '500',
+                        transition: 'color 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.color = '#c82333';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.color = '#dc3545';
                       }}
                     >
-                      <i className="fa fa-sign-out" aria-hidden="true"></i> Logout
-                    </button>
+                      <i className="fa fa-sign-out me-1"></i> 
+                      Logout
+                    </Link>
                   </li>
                 </>
               ) : (

@@ -4,7 +4,7 @@ import api from "../../Utils/Axios";
 import { Store } from "../../Utils/Store";
 import { toast } from "react-toastify";
 
-function ChatPage() {
+function ChatPageNew() {
   const { chatId } = useParams();
   const navigate = useNavigate();
   const { state } = useContext(Store);
@@ -279,7 +279,7 @@ function ChatPage() {
                 </div>
               );
             })}
-        <div ref={messagesEndRef} />
+            <div ref={messagesEndRef} />
           </div>
         )}
       </div>
@@ -301,10 +301,10 @@ function ChatPage() {
               minHeight: '20px',
               fontFamily: 'inherit'
             }}
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-          placeholder="Type your message..."
+            placeholder="Type your message..."
             rows="1"
             disabled={sending}
           />
@@ -340,4 +340,4 @@ function ChatPage() {
   );
 }
 
-export default ChatPage;
+export default ChatPageNew; 

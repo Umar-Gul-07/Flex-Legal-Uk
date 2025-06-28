@@ -6,7 +6,20 @@ function AttorneyProtected({children}) {
     const {state}=useContext(Store)
     const {UserInfo}=state
 
-    return  UserInfo && UserInfo.isLawyer ?  children : <Navigate to='/login'/>
+    // Get user from localStorage as fallback
+    const getCurrentUser = () => {
+        try {
+            const userFromStorage = localStorage.getItem("UserInfo");
+            return userFromStorage ? JSON.parse(userFromStorage) : null;
+        } catch (error) {
+            return null;
+        }
+    };
+
+    const currentUser = UserInfo || getCurrentUser();
+
+    // Allow both regular users and lawyers (any logged in user)
+    return currentUser ? children : <Navigate to='/login'/>
 }
 
 export default AttorneyProtected

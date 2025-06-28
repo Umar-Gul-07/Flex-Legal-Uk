@@ -17,11 +17,12 @@ import Users from "./Pages/admin/UsersList";
 import AttorneysList from "./Pages/admin/AttorneysList";
 import TransactionList from "./Pages/admin/TransactionList";
 import UserDashboard from "./Pages/users/Dashboard";
-import UserMain from "./Pages/users/Main";
+import LawyerDashboard from "./Pages/users/LawyerDashboard";
 import AdminProtected from "./Security/AdminProtected";
 import AttorneyProtected from "./Security/AttorneyProtected";
 import Setting from "./Pages/users/Setting";
 import ChatPage from "./Pages/website/ChatPage";
+import History from './Pages/users/History';
 
 // Protected Route Component for Attorneys
 const ProtectedAttorneysRoute = ({ children }) => {
@@ -64,8 +65,9 @@ function App() {
           <Route path='/chat/:chatId' element={<WebsiteBase><ChatPage title="Chat"/></WebsiteBase>} /> 
 
           {/* User Routes */}
-          <Route path='/user/dashboard' element={<AttorneyProtected><UserMain><UserDashboard/></UserMain></AttorneyProtected>} />
-          <Route path='/user/settings' element={<AttorneyProtected><UserMain><Setting/></UserMain></AttorneyProtected>} />
+          <Route path='/user/dashboard' element={<AttorneyProtected><Dashboard><LawyerDashboard/></Dashboard></AttorneyProtected>} />
+          <Route path='/user/history' element={<AttorneyProtected><WebsiteBase><History/></WebsiteBase></AttorneyProtected>} />
+          <Route path='/user/settings' element={<AttorneyProtected><WebsiteBase><Setting/></WebsiteBase></AttorneyProtected>} />
 
           {/* Admin Routes */}
           <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />
