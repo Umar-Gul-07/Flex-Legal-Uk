@@ -58,118 +58,114 @@ function Setting() {
 
     return (
         <>
-            <div className="page-content">
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-12">
-                            <div className="page-title-box d-sm-flex align-items-center justify-content-between">
-                                <h4 className="mb-sm-0 font-size-18">Settings</h4>
-                            </div>
-                        </div>
+            <div className="row">
+                <div className="col-12">
+                    <div className="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 className="mb-sm-0 font-size-18">Settings</h4>
                     </div>
-                    <div className="row">
-                        <div className="col-lg-12">
-                            <div className="card">
-                                <div className="card-body">
-                                    <h4 className="card-title mb-4">Update Your Information</h4>
-                                    <form onSubmit={handleSubmit}>
-                                        <div className="row">
-                                            <div className="col-lg-6">
-                                                <div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-firstName">First Name</label>
-                                                        <input
-                                                            id="input-firstName"
-                                                            className="form-control"
-                                                            value={firstName}
-                                                            onChange={(e) => setFirstName(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-lastName">Last Name</label>
-                                                        <input
-                                                            id="input-lastName"
-                                                            className="form-control"
-                                                            value={lastName}
-                                                            onChange={(e) => setLastName(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-email">Email</label>
-                                                        <input
-                                                            id="input-email"
-                                                            className="form-control"
-                                                            value={email}
-                                                            onChange={(e) => setEmail(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-address">Address</label>
-                                                        <input
-                                                            id="input-address"
-                                                            className="form-control"
-                                                            value={address}
-                                                            onChange={(e) => setAddress(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-cell">Cell</label>
-                                                        <input
-                                                            id="input-cell"
-                                                            className="form-control"
-                                                            value={cell}
-                                                            onChange={(e) => setCell(e.target.value)}
-                                                        />
-                                                    </div>
-                                                </div>
+                </div>
+            </div>
+            <div className="row">
+                <div className="col-lg-12">
+                    <div className="card">
+                        <div className="card-body">
+                            <h4 className="card-title mb-4">Update Your Information</h4>
+                            <form onSubmit={handleSubmit}>
+                                <div className="row">
+                                    <div className="col-lg-6">
+                                        <div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-firstName">First Name</label>
+                                                <input
+                                                    id="input-firstName"
+                                                    className="form-control"
+                                                    value={firstName}
+                                                    onChange={(e) => setFirstName(e.target.value)}
+                                                />
                                             </div>
-                                            <div className="col-lg-6">
-                                                <div className="mt-4 mt-lg-0">
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-education">Education</label>
-                                                        <input
-                                                            id="input-education"
-                                                            className="form-control"
-                                                            value={education}
-                                                            onChange={(e) => setEducation(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-expertise">Expertise</label>
-                                                        <input
-                                                            id="input-expertise"
-                                                            className="form-control"
-                                                            value={expertise}
-                                                            onChange={(e) => setExpertise(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-practiceArea">Practice Area</label>
-                                                        <input
-                                                            id="input-practiceArea"
-                                                            className="form-control"
-                                                            value={practiceArea}
-                                                            onChange={(e) => setPracticeArea(e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-4">
-                                                        <label htmlFor="input-image">Profile Image</label>
-                                                        <input
-                                                            id="input-image"
-                                                            type="file"
-                                                            className="form-control"
-                                                            onChange={(e) => setImage(e.target.files[0])}  // Handle image input
-                                                        />
-                                                    </div>
-                                                    <div className="form-group mb-0">
-                                                        <button type="submit" className="btn btn-primary">Update</button>
-                                                    </div>
-                                                </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-lastName">Last Name</label>
+                                                <input
+                                                    id="input-lastName"
+                                                    className="form-control"
+                                                    value={lastName}
+                                                    onChange={(e) => setLastName(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-email">Email</label>
+                                                <input
+                                                    id="input-email"
+                                                    className="form-control"
+                                                    value={email}
+                                                    onChange={(e) => setEmail(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-address">Address</label>
+                                                <input
+                                                    id="input-address"
+                                                    className="form-control"
+                                                    value={address}
+                                                    onChange={(e) => setAddress(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-cell">Cell</label>
+                                                <input
+                                                    id="input-cell"
+                                                    className="form-control"
+                                                    value={cell}
+                                                    onChange={(e) => setCell(e.target.value)}
+                                                />
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
+                                    <div className="col-lg-6">
+                                        <div className="mt-4 mt-lg-0">
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-education">Education</label>
+                                                <input
+                                                    id="input-education"
+                                                    className="form-control"
+                                                    value={education}
+                                                    onChange={(e) => setEducation(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-expertise">Expertise</label>
+                                                <input
+                                                    id="input-expertise"
+                                                    className="form-control"
+                                                    value={expertise}
+                                                    onChange={(e) => setExpertise(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-practiceArea">Practice Area</label>
+                                                <input
+                                                    id="input-practiceArea"
+                                                    className="form-control"
+                                                    value={practiceArea}
+                                                    onChange={(e) => setPracticeArea(e.target.value)}
+                                                />
+                                            </div>
+                                            <div className="form-group mb-4">
+                                                <label htmlFor="input-image">Profile Image</label>
+                                                <input
+                                                    id="input-image"
+                                                    type="file"
+                                                    className="form-control"
+                                                    onChange={(e) => setImage(e.target.files[0])}  // Handle image input
+                                                />
+                                            </div>
+                                            <div className="form-group mb-0">
+                                                <button type="submit" className="btn btn-primary">Update</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>

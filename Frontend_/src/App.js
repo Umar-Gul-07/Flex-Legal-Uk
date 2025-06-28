@@ -67,7 +67,7 @@ function App() {
           {/* User Routes */}
           <Route path='/user/dashboard' element={<AttorneyProtected><Dashboard><LawyerDashboard/></Dashboard></AttorneyProtected>} />
           <Route path='/user/history' element={<AttorneyProtected><WebsiteBase><History/></WebsiteBase></AttorneyProtected>} />
-          <Route path='/user/settings' element={<AttorneyProtected><WebsiteBase><Setting/></WebsiteBase></AttorneyProtected>} />
+          <Route path='/user/settings' element={<AttorneyProtected><Dashboard><Setting/></Dashboard></AttorneyProtected>} />
 
           {/* Admin Routes */}
           <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />
