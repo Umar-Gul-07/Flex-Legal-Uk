@@ -116,6 +116,63 @@ class PaymentController {
      
     }
   };
+
+  // Check if user has paid for a specific lawyer
+  static checkPaymentStatus = async (req, res, next) => {
+    try {
+      const { userId, lawyerId } = req.params;
+      
+      console.log("🔵 Checking payment status for:", { userId, lawyerId });
+      
+      const payment = await PaymentModel.findOne({
+        userId: userId,
+        lawyerId: lawyerId,
+        status: 'Completed'
+      });
+
+      console.log("🔵 Payment found:", payment);
+
+      const isPaid = !!payment;
+      
+      console.log("🔵 Is paid:", isPaid);
+      
+      res.status(200).json({
+        isPaid: isPaid,
+        payment: payment ? {
+          amount: payment.amount,
+          date: payment.createdAt,
+          transactionId: payment.transactionId
+        } : null
+      });
+    } catch (error) {
+      console.error("❌ Error checking payment status:", error);
+      res.status(500).json({ 
+        isPaid: false, 
+        error: "Failed to check payment status" 
+      });
+    }
+  };
+
+  // Debug: Get all payments
+  static getAllPayments = async (req, res, next) => {
+    try {
+      const payments = await PaymentModel.find()
+        .populate('userId', 'firstName lastName email')
+        .populate('lawyerId', 'firstName lastName email');
+      
+      console.log("🔵 All payments:", payments);
+      
+      res.status(200).json({
+        count: payments.length,
+        payments: payments
+      });
+    } catch (error) {
+      console.error("❌ Error getting all payments:", error);
+      res.status(500).json({ 
+        error: "Failed to get payments" 
+      });
+    }
+  };
 }
 
 export default PaymentController;

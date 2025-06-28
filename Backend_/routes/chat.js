@@ -7,7 +7,7 @@ import Chat from '../models/Chat.js';
 const router = express.Router();
 
 router.post('/', ChatController.createOrGetChat); // create/resume chat - no auth needed
-router.get('/user/:userId', verifyToken, ChatController.getUserChats); // get all chats for user
+router.get('/user/:userId', ChatController.getUserChats); // get all chats for user - no auth needed
 router.get('/lawyer/:lawyerId', ChatController.getLawyerChats); // get all chats for lawyer - no auth needed
 router.get('/find/:userId/:lawyerId', ChatController.getChatByParticipants); // specific chat - no auth needed
 router.get('/:chatId', ChatController.getChatById); // get specific chat by ID - no auth needed

@@ -9,7 +9,9 @@ function LawyerDashboard() {
   const { state } = useContext(Store);
   const { UserInfo } = state;
   const [recentMessages, setRecentMessages] = useState([]);
+  const [hiredClients, setHiredClients] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [clientsLoading, setClientsLoading] = useState(true);
 
   // Fetch recent messages for the lawyer
   useEffect(() => {
@@ -28,6 +30,71 @@ function LawyerDashboard() {
 
     fetchRecentMessages();
   }, [UserInfo]);
+
+  // Fetch hired clients for the lawyer
+  useEffect(() => {
+    const fetchHiredClients = async () => {
+      try {
+        if (UserInfo && UserInfo._id) {
+          console.log("🔵 Fetching chats for lawyer:", UserInfo._id);
+          const { data } = await api.get(`/chat/lawyer/${UserInfo._id}`);
+          console.log("🔵 Chats received:", data);
+          
+          // Filter to get unique clients who have actually paid for this lawyer
+          const uniqueClients = [];
+          for (const chat of data) {
+            const client = chat.user; // Use chat.user instead of participants
+            console.log("🔵 Checking client:", client);
+            if (client && !uniqueClients.find(c => c._id === client._id)) {
+              // Check if this client has paid for this lawyer
+              try {
+                console.log("🔵 Checking payment status for client:", client._id, "lawyer:", UserInfo._id);
+                const paymentResponse = await api.get(`/payments/status/${client._id}/${UserInfo._id}`);
+                console.log("🔵 Payment response:", paymentResponse.data);
+                if (paymentResponse.data.isPaid) {
+                  console.log("✅ Client has paid, adding to hired clients");
+                  uniqueClients.push({
+                    ...client,
+                    chatId: chat._id,
+                    lastMessage: chat.latestMessage,
+                    lastActivity: chat.updatedAt
+                  });
+                } else {
+                  console.log("❌ Client has not paid");
+                }
+              } catch (error) {
+                console.error("❌ Error checking payment status for client:", client._id, error);
+              }
+            }
+          }
+          console.log("🔵 Final hired clients:", uniqueClients);
+          setHiredClients(uniqueClients);
+        }
+      } catch (error) {
+        console.error("❌ Error fetching hired clients:", error);
+      } finally {
+        setClientsLoading(false);
+      }
+    };
+
+    fetchHiredClients();
+  }, [UserInfo]);
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  };
+
+  const getLastMessagePreview = (client) => {
+    if (client.lastMessage) {
+      const content = client.lastMessage.content;
+      return content.length > 40 ? content.substring(0, 40) + '...' : content;
+    }
+    return 'No messages yet';
+  };
 
   return (
     <>
@@ -201,6 +268,93 @@ function LawyerDashboard() {
         </div>
       </div>
 
+      {/* Hired Clients Section */}
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <h5 className="mb-3">Hired Clients</h5>
+              {clientsLoading ? (
+                <div className="text-center">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              ) : hiredClients.length > 0 ? (
+                <div className="table-responsive">
+                  <table className="table table-hover">
+                    <thead>
+                      <tr>
+                        <th>Client</th>
+                        <th>Email</th>
+                        <th>Last Message</th>
+                        <th>Last Activity</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {hiredClients.map((client) => (
+                        <tr key={client._id}>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <img
+                                src={client.image ? 
+                                  `${server_ip}/${client.image}` : 
+                                  "/assets/website/images/avatar-1.jpg"}
+                                className="rounded-circle me-2"
+                                width="40"
+                                height="40"
+                                alt="Client"
+                                onError={(e) => {
+                                  e.target.src = "/assets/website/images/avatar-1.jpg";
+                                }}
+                              />
+                              <div>
+                                <h6 className="mb-0">
+                                  {client.firstName} {client.lastName}
+                                </h6>
+                                <small className="text-muted">
+                                  Client ID: {client._id.slice(-6)}
+                                </small>
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <span className="text-muted">{client.email}</span>
+                          </td>
+                          <td>
+                            <span className="text-truncate d-inline-block" style={{ maxWidth: '200px' }}>
+                              {getLastMessagePreview(client)}
+                            </span>
+                          </td>
+                          <td>
+                            {formatDate(client.lastActivity)}
+                          </td>
+                          <td>
+                            <Link 
+                              to={`/chat/${client.chatId}`}
+                              className="btn btn-sm btn-primary"
+                            >
+                              <i className="bx bx-message-square me-1"></i>
+                              Chat
+                            </Link>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="text-center text-muted">
+                  <i className="bx bx-user font-size-48 mb-3"></i>
+                  <p>No clients have hired you yet</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Recent Messages Section */}
       <div className="row">
         <div className="col-lg-12">
@@ -230,8 +384,8 @@ function LawyerDashboard() {
                           <td>
                             <div className="d-flex align-items-center">
                               <img
-                                src={chat.participants?.find(p => !p.isLawyer)?.image ? 
-                                  `${server_ip}/${chat.participants.find(p => !p.isLawyer).image}` : 
+                                src={chat.user?.image ? 
+                                  `${server_ip}/${chat.user.image}` : 
                                   "/assets/website/images/avatar-1.jpg"}
                                 className="rounded-circle me-2"
                                 width="40"
@@ -243,10 +397,10 @@ function LawyerDashboard() {
                               />
                               <div>
                                 <h6 className="mb-0">
-                                  {chat.participants?.find(p => !p.isLawyer)?.firstName} {chat.participants?.find(p => !p.isLawyer)?.lastName}
+                                  {chat.user?.firstName} {chat.user?.lastName}
                                 </h6>
                                 <small className="text-muted">
-                                  {chat.participants?.find(p => !p.isLawyer)?.email}
+                                  {chat.user?.email}
                                 </small>
                               </div>
                             </div>
