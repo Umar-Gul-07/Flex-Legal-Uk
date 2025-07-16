@@ -63,6 +63,8 @@ class ChatController {
       next(err);
     }
   };
+  // select: 'firstName lastName email',
+  //           refPath: 'senderModel'
 
   // Get all chats for a specific user
   static getUserChats = async (req, res, next) => {
@@ -74,8 +76,11 @@ class ChatController {
           path: 'latestMessage',
           populate: {
             path: 'sender',
-            select: 'firstName lastName email',
-            refPath: 'senderModel'
+            select: "firstName   lsastName  email  ",
+            refPath: "senderModel",
+
+        
+           
           }
         })
         .sort({ updatedAt: -1 });

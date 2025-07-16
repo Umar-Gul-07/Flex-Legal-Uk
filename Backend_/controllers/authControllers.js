@@ -8,17 +8,29 @@ const login = async (req, res, next) => {
 
   try {
     console.log("Login attempt for email:", email);
+    console.log("🔍 Provided password length:", password ? password.length : 0);
     
     // Check for Lawyer
     const foundLawyer = await lawyerModel.findOne({ email });
     if (foundLawyer) {
       console.log("🔍 Found lawyer:", foundLawyer.email);
       console.log("🔍 Lawyer isLawyer field:", foundLawyer.isLawyer);
+      console.log("🔍 Lawyer verification status:", foundLawyer.verificationStatus);
+      console.log("🔍 Stored hashed password length:", foundLawyer.password ? foundLawyer.password.length : 0);
+      console.log("🔍 Stored password starts with:", foundLawyer.password ? foundLawyer.password.substring(0, 10) + "..." : "null");
       
       const passwordMatch = await bcrypt.compare(password, foundLawyer.password);
       console.log("Password match result:", passwordMatch);
 
       if (passwordMatch && foundLawyer.isLawyer) {
+        // Only block login for rejected lawyers
+        if (foundLawyer.verificationStatus === 'rejected') {
+          return res.status(401).json({ 
+            success: false, 
+            message: "Your lawyer account has been rejected. Please contact admin for more information." 
+          });
+        }
+        // Allow both 'pending' and 'approved' lawyers to log in
         console.log("✅ Lawyer login successful");
         const { password, ...otherDetails } = foundLawyer;
         return res.status(200).json({

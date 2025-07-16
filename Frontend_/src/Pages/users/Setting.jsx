@@ -46,9 +46,9 @@ function Setting() {
 
             dispatch({
                 type: "UserLoggedIn",
-                payload: response.data,
+                payload: response.data.data,
             });
-            localStorage.setItem("UserInfo", JSON.stringify(response.data));
+            localStorage.setItem("UserInfo", JSON.stringify(response.data.data));
             toast.success("Data Updated Successfully");
 
         } catch (error) {

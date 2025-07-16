@@ -98,6 +98,24 @@ function LawyerDashboard() {
 
   return (
     <>
+      {/* Pending status alert */}
+      {UserInfo && UserInfo.verificationStatus === 'pending' && (
+        <div style={{
+          background: '#fff3cd',
+          color: '#856404',
+          border: '1.5px solid #ffeeba',
+          borderRadius: '0.5rem',
+          padding: '1.1rem',
+          marginBottom: '1.5rem',
+          fontWeight: 600,
+          fontSize: '1.08rem',
+          textAlign: 'center',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
+          <i className="fa fa-info-circle" style={{ marginRight: 8 }}></i>
+          Your account is <b>pending admin verification</b>. You will not be visible to users until approved.
+        </div>
+      )}
       <div className="row">
         <div className="col-lg-12">
           <div className="card mx-n4 mt-n4 bg-info-subtle">

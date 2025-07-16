@@ -39,10 +39,10 @@ function Attorneys({ title }) {
 
     const get_all_attorneys = async () => {
         try {
-            const { data } = await api.get(`/lawyer/get_all_attorney`);
-            if (Array.isArray(data)) {
-                setAttorneys(data);
-                filterAttorneys(data, searchTerm);
+            const { data } = await api.get(`/lawyer/verified`);
+            if (data.success && Array.isArray(data.lawyers)) {
+                setAttorneys(data.lawyers);
+                filterAttorneys(data.lawyers, searchTerm);
             } else {
                 toast.error('Unexpected response format');
             }

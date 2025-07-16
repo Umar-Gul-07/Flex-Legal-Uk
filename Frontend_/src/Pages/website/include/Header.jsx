@@ -128,8 +128,9 @@ function Header() {
                   </li>
                 </>
               ) : (
+                // Dropdown for Login
                 <li className={location.pathname === '/login' ? 'active' : ''}>
-                  <Link to="/login">Login</Link>
+                  <Link to="/login?role=user">Login</Link>
                 </li>
               )}
 

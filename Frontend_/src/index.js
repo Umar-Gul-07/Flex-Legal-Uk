@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from './Utils/Store';
+import ErrorBoundary from './Errors/ErrorBoundary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <ErrorBoundary>
       <StoreProvider>
         <App />
-    </StoreProvider>
+      </StoreProvider>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 

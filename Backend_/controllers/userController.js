@@ -73,11 +73,13 @@ class UserController {
     try {
       const users = await user.find();
       const attorneys = await lawyerModel.find();
+      const pendingLawyers = await lawyerModel.find({ verificationStatus: 'pending' });
       const transactions = await Payment.find();
 
       res.status(200).send({
         users: users.length > 0 ? users : 0,
         attorneys: attorneys.length > 0 ? attorneys : 0,
+        pendingLawyers: pendingLawyers.length > 0 ? pendingLawyers : 0,
         transactions: transactions.length > 0 ? transactions : 0,
       });
     } catch (error) {

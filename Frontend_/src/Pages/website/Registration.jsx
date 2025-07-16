@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
- import { Link, useNavigate } from "react-router-dom";
- import api from "../../Utils/Axios";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import api from "../../Utils/Axios";
 import { Helmet } from 'react-helmet'
 import PageTitle from './include/PageTitle'
 import Footer from "./include/Footer";
@@ -21,6 +21,21 @@ function Registration({title}) {
   const [expertise, setExpertise] = useState("");
   const [registerAsLawyer, setRegisterAsLawyer] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Get role from query param
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const role = params.get("role");
+    if (role === "lawyer") {
+      setRegisterAsLawyer(true);
+    } else {
+      setRegisterAsLawyer(false);
+    }
+  }, [location.search]);
+
+  const params = new URLSearchParams(location.search);
+  const role = params.get("role");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,9 +63,10 @@ function Registration({title}) {
         toast.success(response.data.message);
 
          if (registerAsLawyer){
-           navigate("/Login");
+           toast.info("Your lawyer account has been created successfully! Please wait for admin verification before you can log in.");
+           navigate("/Login?role=lawyer");
         } else{
-           navigate("/login");
+           navigate("/login?role=user");
         }
       } else {
         toast.error(response.data.message);
@@ -78,296 +94,318 @@ function Registration({title}) {
   return(
     <>
     <Helmet><title>{title}</title></Helmet>
-
-         <PageTitle title={title} />
-
-       
-        <title>Sign Up</title>
-      <div className="account-pages my-5 pt-sm-5">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-md-8 col-lg-6 col-xl-5">
-              <div className="card overflow-hidden">
-                <div className="bg-soft-primary">
-                  <div className="row">
-                    <div className="col-7">
-                      <div className="text-primary p-4">
-                      <h3 className="card-title text-center mb-4">Sign Up</h3>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-body pt-0">
-                   
-                  <div className="p-2">
-                
-
-                    <form
-                      className="login"
-                      id="registration_form"
-                      onSubmit={handleSubmit}
-                    >
-                      {/* User Information Fields */}
-                      <div id="div_id_first_name" className="mb-3">
-                        <label
-                          htmlFor="id_first_name"
-                          className="form-label requiredField"
-                        >
-                          First Name<span className="asteriskField">*</span>
-                        </label>
-                        <input
-                          onChange={(e) => setFirstName(e.target.value)}
-                          type="text"
-                          name="first_name"
-                          placeholder="First Name"
-                          autoComplete="text"
-                          maxLength={320}
-                          className="textinput form-control"
-                          required
-                          id="id_first_name"
-                        />
-                      </div>
-
-                      <div id="div_id_last_name" className="mb-3">
-                        <label
-                          htmlFor="id_last_name"
-                          className="form-label requiredField"
-                        >
-                          Last Name<span className="asteriskField">*</span>
-                        </label>
-                        <input
-                          onChange={(e) => setLastName(e.target.value)}
-                          type="text"
-                          name="last_name"
-                          placeholder="Last Name"
-                          autoComplete="text"
-                          maxLength={320}
-                          className="textinput form-control"
-                          required
-                          id="id_last_name"
-                        />
-                      </div>
-
-                      <div id="div_id_email" className="mb-3">
-                        <label
-                          htmlFor="id_email"
-                          className="form-label requiredField"
-                        >
-                          Email<span className="asteriskField">*</span>
-                        </label>
-                        <input
-                          onChange={(e) => setEmail(e.target.value)}
-                          type="email"
-                          name="email"
-                          placeholder="Email address"
-                          autoComplete="email"
-                          maxLength={320}
-                          className="textinput form-control"
-                          required
-                          id="id_email"
-                        />
-                      </div>
-
-                      <div id="div_id_password" className="mb-3">
-                        <label
-                          htmlFor="id_password"
-                          className="form-label requiredField"
-                        >
-                          Password<span className="asteriskField">*</span>
-                        </label>
-                        <input
-                          onChange={(e) => setPassword(e.target.value)}
-                          type="password"
-                          name="password"
-                          placeholder="Password"
-                          autoComplete="current-password"
-                          className="passwordinput form-control"
-                          required
-                          id="id_password"
-                        />
-                      </div>
-
-                      <div id="div_id_confirm_password" className="mb-3">
-                        <label
-                          htmlFor="id_confirm_password"
-                          className="form-label requiredField"
-                        >
-                          Confirm Password
-                          <span className="asteriskField">*</span>
-                        </label>
-                        <input
-                          onChange={(e) => setConfirmPassword(e.target.value)}
-                          type="password"
-                          name="confirm_password"
-                          placeholder="Confirm Password"
-                          autoComplete="new-password"
-                          className="passwordinput form-control"
-                          required
-                          id="id_confirm_password"
-                        />
-                      </div>
-
-                      {registerAsLawyer && (
-                        <>
-                          <div id="div_id_cell" className="mb-3">
-                            <label
-                              htmlFor="id_cell"
-                              className="form-label requiredField"
-                            >
-                              Cell<span className="asteriskField">*</span>
-                            </label>
-                            <input
-                              onChange={(e) => setCell(e.target.value)}
-                              type="text"
-                              name="cell"
-                              placeholder="Cell"
-                              autoComplete="number"
-                              maxLength={320}
-                              className="numberinput form-control"
-                              required
-                              id="id_cell"
-                            />
-                          </div>
-
-                          <div id="div_id_address" className="mb-3">
-                            <label
-                              htmlFor="id_address"
-                              className="form-label requiredField"
-                            >
-                              Address<span className="asteriskField">*</span>
-                            </label>
-                            <input
-                              onChange={(e) => setAddress(e.target.value)}
-                              type="text"
-                              name="address"
-                              placeholder="Address"
-                              autoComplete="text"
-                              maxLength={320}
-                              className="textinput form-control"
-                              required
-                              id="id_address"
-                            />
-                          </div>
-
-                          <div id="div_id_Education" className="mb-3">
-                            <label
-                              htmlFor="id_Education"
-                              className="form-label requiredField"
-                            >
-                              Education<span className="asteriskField">*</span>
-                            </label>
-                            <input
-                              onChange={(e) => setEducation(e.target.value)}
-                              type="text"
-                              name="Education"
-                              placeholder="Education"
-                              autoComplete="text"
-                              maxLength={320}
-                              className="textinput form-control"
-                              required
-                              id="id_Education"
-                            />
-                          </div>
-
-                          <div id="div_id_Education" className="mb-3">
-                            <label
-                              htmlFor="id_Education"
-                              className="form-label requiredField"
-                            >
-                              Expertise<span className="asteriskField">*</span>
-                            </label>
-                            <input
-                              onChange={(e) => setExpertise(e.target.value)}
-                              type="text"
-                              name="Education"
-                              placeholder="Expertise"
-                              autoComplete="text"
-                              maxLength={320}
-                              className="textinput form-control"
-                              required
-                              id="id_Education"
-                            />
-                          </div>
-
-                          <div id="div_id_practice_area" className="mb-3">
-                            <label
-                              htmlFor="id_practice_area"
-                              className="form-label requiredField"
-                            >
-                              Practice Area
-                              <span className="asteriskField">*</span>
-                            </label>
-                            <select
-                              onChange={(e) => setPracticeArea(e.target.value)}
-                              name="practice_area"
-                              className="textinput form-control"
-                              // Apply the same classes as the input field
-                              required
-                              id="id_practice_area"
-                            >
-                              <option value="" disabled selected>
-                                Select Practice Area
-                              </option>
-                              <option value="Child Abuse">Child Abuse</option>
-                              <option value="Divorce">Divorce</option>
-                              <option value="Finance law">Finance Law</option>
-                              <option value="tax issues">Tax Issues</option>
-                              <option value="Drugs">Drus</option>
-                              <option value="Smugling">Smugling</option>
-                              <option value="Curruption">Curruption</option>
-                              <option value="Bribery">Bribery</option>
-                              <option value="Other">Other</option>
-
-                              {/* Add more options as needed */}
-                            </select>
-                          </div>
-                        </>
-                      )}
-
-                      <div className="mb-3 form-check">
-                        <input
-                          type="checkbox"
-                          name="registerAsLawyer"
-                          className="checkboxinput form-check-input"
-                          id="id_register_as_lawyer"
-                          checked={registerAsLawyer}
-                          onChange={() =>
-                            setRegisterAsLawyer(!registerAsLawyer)
-                          }
-                        />
-                        <label
-                          htmlFor="id_register_as_lawyer"
-                          className="form-check-label"
-                        >
-                          Register as a Lawyer
-                        </label>
-                      </div>
-
-                      <div className="mt-3">
-                        <button
-                          className="btn btn-success btn-block waves-effect waves-light"
-                          type="submit"
-                        >
-                          Sign Up
-                        </button>
-                      </div>
-                    </form>
-                    <div className="mt-4 text-center">
-                      <p style={{ display: "inline-block" }}>
-                        Already have an Account?{" "}
-                      </p>
-                      <Link to="/login" style={{ display: "inline-block" }}>
-                        Sign in!
-                      </Link>
-                    </div>
-                  </div>
+    <PageTitle title={title} />
+    <div style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f4f6fa' }}>
+      <div className="container" style={{ maxWidth: role === 'lawyer' ? 700 : 420, width: '100%' }}>
+        <div className="row justify-content-center">
+          <div className="col-12">
+            <div style={{ background: 'white', borderRadius: '1.5rem', boxShadow: '0 0 32px rgba(0,0,0,0.10)', padding: '2.5rem 2rem', margin: '0 auto' }}>
+              <div className="text-center" style={{ marginBottom: '2rem' }}>
+                <h2 style={{ fontWeight: 700, fontSize: '2rem', marginBottom: 6 }}>
+                  {role === 'lawyer' ? 'Lawyer Registration' : 'User Registration'}
+                </h2>
+                <div style={{ color: '#888', fontSize: '1.08rem' }}>
+                  Please fill in the details below to create your account.
                 </div>
               </div>
+              <form
+                className="login"
+                id="registration_form"
+                onSubmit={handleSubmit}
+                style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}
+              >
+                {role === 'lawyer' ? (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.1rem' }}>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_first_name" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        First Name<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setFirstName(e.target.value)}
+                        type="text"
+                        name="first_name"
+                        placeholder="First Name"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_first_name"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_last_name" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Last Name<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setLastName(e.target.value)}
+                        type="text"
+                        name="last_name"
+                        placeholder="Last Name"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_last_name"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_email" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Email<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="email"
+                        name="email"
+                        placeholder="Email address"
+                        autoComplete="email"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_email"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_cell" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Cell<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setCell(e.target.value)}
+                        type="text"
+                        name="cell"
+                        placeholder="Cell"
+                        autoComplete="number"
+                        maxLength={320}
+                        className="numberinput form-control"
+                        required
+                        id="id_cell"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_address" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Address<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setAddress(e.target.value)}
+                        type="text"
+                        name="address"
+                        placeholder="Address"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_address"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_education" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Education<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setEducation(e.target.value)}
+                        type="text"
+                        name="education"
+                        placeholder="Education"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_education"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_practice_area" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Practice Area<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setPracticeArea(e.target.value)}
+                        type="text"
+                        name="practice_area"
+                        placeholder="Practice Area"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_practice_area"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_expertise" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Expertise<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setExpertise(e.target.value)}
+                        type="text"
+                        name="expertise"
+                        placeholder="Expertise"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_expertise"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_password" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Password<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        autoComplete="current-password"
+                        className="passwordinput form-control"
+                        required
+                        id="id_password"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div style={{ flex: '1 1 45%' }}>
+                      <label htmlFor="id_confirm_password" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Confirm Password<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="password"
+                        name="confirm_password"
+                        placeholder="Confirm Password"
+                        autoComplete="new-password"
+                        className="passwordinput form-control"
+                        required
+                        id="id_confirm_password"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div>
+                      <label htmlFor="id_first_name" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        First Name<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setFirstName(e.target.value)}
+                        type="text"
+                        name="first_name"
+                        placeholder="First Name"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_first_name"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="id_last_name" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Last Name<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setLastName(e.target.value)}
+                        type="text"
+                        name="last_name"
+                        placeholder="Last Name"
+                        autoComplete="text"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_last_name"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="id_email" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Email<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="email"
+                        name="email"
+                        placeholder="Email address"
+                        autoComplete="email"
+                        maxLength={320}
+                        className="textinput form-control"
+                        required
+                        id="id_email"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="id_password" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Password<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        autoComplete="current-password"
+                        className="passwordinput form-control"
+                        required
+                        id="id_password"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="id_confirm_password" className="form-label requiredField" style={{ fontWeight: 500, marginBottom: 4 }}>
+                        Confirm Password<span className="asteriskField">*</span>
+                      </label>
+                      <input
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        type="password"
+                        name="confirm_password"
+                        placeholder="Confirm Password"
+                        autoComplete="new-password"
+                        className="passwordinput form-control"
+                        required
+                        id="id_confirm_password"
+                        style={{ borderRadius: '0.5rem', padding: '0.85rem', width: '100%', fontSize: '1.08rem', border: '1.5px solid #e0e7ef' }}
+                      />
+                    </div>
+                  </>
+                )}
+                <div className="mb-2">
+                  <input
+                    type="checkbox"
+                    name="registerAsLawyer"
+                    className="checkboxinput form-check-input"
+                    id="id_register_as_lawyer"
+                    checked={registerAsLawyer}
+                    onChange={() => setRegisterAsLawyer(!registerAsLawyer)}
+                    disabled={role === 'lawyer' || role === 'user'}
+                    style={{ marginRight: 8 }}
+                  />
+                  <label htmlFor="id_register_as_lawyer" className="form-check-label" style={{ fontWeight: 500, userSelect: 'none' }}>
+                    Register as a Lawyer
+                  </label>
+                </div>
+                <button
+                  className="btn btn-success btn-block waves-effect waves-light"
+                  type="submit"
+                  style={{ width: '100%', padding: '0.95rem', fontWeight: 700, fontSize: '1.13rem', borderRadius: '0.5rem', marginTop: 6, letterSpacing: 0.5 }}
+                >
+                  Sign Up
+                </button>
+                <div className="mt-3 text-center">
+                  <span style={{ fontWeight: 500 }}>Already have an Account? </span>
+                  <Link to={`/login?role=${role || 'user'}`} style={{ fontWeight: 500, color: '#2d7aee' }}>
+                    Sign in!
+                  </Link>
+                </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
-      <Footer />
+    </div>
     </>
   );
 }

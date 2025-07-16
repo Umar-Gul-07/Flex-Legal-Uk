@@ -55,6 +55,12 @@ const Sidebar = () => {
                                                     </Link>
                                                 </li>
                                                 <li>
+                                                    <Link to="/admin/pending-lawyers" className="waves-effect">
+                                                        <i className="bx bx-time" />
+                                                        <span key="t-chat">Pending Verifications</span>
+                                                    </Link>
+                                                </li>
+                                                <li>
                                                     <Link to="/admin/transactions-list" className="waves-effect">
                                                         <i className="bx bx-transfer" />
                                                         <span key="t-chat">Transaction</span>

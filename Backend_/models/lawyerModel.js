@@ -53,6 +53,15 @@ const lawyerSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    verificationStatus: {
+      type: String,
+      enum: ['pending', 'approved', 'rejected'],
+      default: 'pending'
+    },
     image: {
       type: String,
       required: false,

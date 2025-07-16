@@ -125,6 +125,30 @@ const Main = () => {
                 </div>
               </div>
             </div>
+
+            <div className="col-sm-4">
+              <div className="card">
+                <div className="card-body">
+                  <div className="d-flex align-items-center mb-3">
+                    <div className="avatar-xs me-3">
+                      <span className="avatar-title rounded-circle bg-warning-subtle text-warning font-size-18">
+                        <i className="bx bx-time" />
+                      </span>
+                    </div>
+                    <h5 className="font-size-14 mb-0">Pending Verifications</h5>
+                  </div>
+                  <div className="text-muted mt-4">
+                    <h4>
+                      {information.pendingLawyers &&
+                      Array.isArray(information.pendingLawyers)
+                        ? information.pendingLawyers.length
+                        : 0}
+                      <i className="mdi mdi-clock ms-1 text-warning" />
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
           {/* end row */}
         </div>

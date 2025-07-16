@@ -1,6 +1,6 @@
 import ToastContainers from "./Utils/ToastContainer";
 import PageNotFound404 from "./Errors/PageNotFound404";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation, Navigate } from "react-router-dom";
 import Dashboard from "./Pages/admin/Dashboard";
 import Main from "./Pages/admin/Main";
 import WebsiteBase from "./Pages/website/Base";
@@ -15,6 +15,7 @@ import AttorneyDetails from "./Pages/website/AttorneyDetails";
 import AdminAttorneyDetails from "./Pages/admin/AttorneyDetails";
 import Users from "./Pages/admin/UsersList";
 import AttorneysList from "./Pages/admin/AttorneysList";
+import PendingLawyers from "./Pages/admin/PendingLawyers";
 import TransactionList from "./Pages/admin/TransactionList";
 import UserDashboard from "./Pages/users/Dashboard";
 import LawyerDashboard from "./Pages/users/LawyerDashboard";
@@ -23,6 +24,9 @@ import AttorneyProtected from "./Security/AttorneyProtected";
 import Setting from "./Pages/users/Setting";
 import ChatPage from "./Pages/website/ChatPage";
 import History from './Pages/users/History';
+import RoleSelection from "./Pages/website/RoleSelection";
+import { useContext } from "react";
+import { Store } from "./Utils/Store";
 
 // Protected Route Component for Attorneys
 const ProtectedAttorneysRoute = ({ children }) => {
@@ -34,6 +38,26 @@ const ProtectedAttorneysRoute = ({ children }) => {
   return children;
 };
 
+function RequireRole({ children }) {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const role = params.get("role");
+  if (!role) {
+    return <Navigate to="/choose-role" replace />;
+  }
+  return children;
+}
+
+// Wrapper to render ChatPage in Dashboard for lawyers, WebsiteBase for users
+function ChatLayoutWrapper(props) {
+  const { state } = useContext(Store);
+  const { UserInfo } = state;
+  if (UserInfo && UserInfo.isLawyer) {
+    return <Dashboard><ChatPage {...props} /></Dashboard>;
+  }
+  return <WebsiteBase><ChatPage {...props} /></WebsiteBase>;
+}
+
 function App() {
   return (
     <>
@@ -44,6 +68,9 @@ function App() {
 
         {/* Routes */}
         <Routes>
+
+          {/* Role Selection Page */}
+          <Route path='/choose-role' element={<RoleSelection />} />
 
           {/* Web Routes */}
           <Route path='/' element={<WebsiteBase><Home/></WebsiteBase>} />
@@ -60,9 +87,17 @@ function App() {
               <WebsiteBase><AttorneyDetails title="Attorney Details"/></WebsiteBase>
             </ProtectedAttorneysRoute>
           } />
-          <Route path='/login' element={<WebsiteBase><Login title="Login"/></WebsiteBase>} />
-          <Route path='/registration' element={<WebsiteBase><Registration title="Registration"/></WebsiteBase>} /> 
-          <Route path='/chat/:chatId' element={<WebsiteBase><ChatPage title="Chat"/></WebsiteBase>} /> 
+          <Route path='/login' element={
+            <RequireRole>
+              <WebsiteBase><Login title="Login"/></WebsiteBase>
+            </RequireRole>
+          } />
+          <Route path='/registration' element={
+            <RequireRole>
+              <WebsiteBase><Registration title="Registration"/></WebsiteBase>
+            </RequireRole>
+          } />
+          <Route path='/chat/:chatId' element={<ChatLayoutWrapper title="Chat" />} /> 
 
           {/* User Routes */}
           <Route path='/user/dashboard' element={<AttorneyProtected><Dashboard><LawyerDashboard/></Dashboard></AttorneyProtected>} />
@@ -73,8 +108,9 @@ function App() {
           <Route path='/admin/dashboard' element={<AdminProtected><Dashboard><Main/></Dashboard></AdminProtected>} />
           <Route path='/admin/users-list' element={<AdminProtected><Dashboard><Users/></Dashboard></AdminProtected>} />
           <Route path='/admin/attorneys-list' element={<AdminProtected><Dashboard><AttorneysList/></Dashboard></AdminProtected>} />
-          <Route path='/admin/attorneys-details' element={<AdminProtected><Dashboard><AdminAttorneyDetails/></Dashboard></AdminProtected>} />
+          <Route path='/admin/pending-lawyers' element={<AdminProtected><Dashboard><PendingLawyers/></Dashboard></AdminProtected>} />
           <Route path='/admin/transactions-list' element={<AdminProtected><Dashboard><TransactionList/></Dashboard></AdminProtected>} />
+          <Route path='/admin/attorneys-details' element={<AdminProtected><Dashboard><AdminAttorneyDetails/></Dashboard></AdminProtected>} />
 
         </Routes>
 

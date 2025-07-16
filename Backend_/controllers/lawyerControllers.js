@@ -375,7 +375,7 @@ class LawyerController {
     }
   };
 
-  // Get lawyer status for debugging
+  // Get lawyer status for verification
   static getLawyerStatus = async (req, res) => {
     try {
       const { email } = req.params;
@@ -386,14 +386,105 @@ class LawyerController {
       }
       
       res.json({
-        email: lawyer.email,
-        isLawyer: lawyer.isLawyer,
-        firstName: lawyer.firstName,
-        lastName: lawyer.lastName
+        success: true,
+        verificationStatus: lawyer.verificationStatus,
+        isVerified: lawyer.isVerified
       });
     } catch (error) {
-      console.error('Error getting lawyer status:', error);
       res.status(500).json({ error: error.message });
+    }
+  };
+
+  // Admin verification methods
+  static getPendingLawyers = async (req, res, next) => {
+    try {
+      const pendingLawyers = await lawyerModel.find({ 
+        verificationStatus: 'pending' 
+      }).select('-password');
+      
+      res.status(200).json({
+        success: true,
+        lawyers: pendingLawyers
+      });
+    } catch (err) {
+      next(createError(500, "Internal Server Error"));
+    }
+  };
+
+  static approveLawyer = async (req, res, next) => {
+    try {
+      const { lawyerId } = req.params;
+      
+      const lawyer = await lawyerModel.findByIdAndUpdate(
+        lawyerId,
+        { 
+          verificationStatus: 'approved',
+          isVerified: true 
+        },
+        { new: true }
+      );
+      
+      if (!lawyer) {
+        return res.status(404).json({ 
+          success: false, 
+          message: "Lawyer not found" 
+        });
+      }
+      
+      res.status(200).json({
+        success: true,
+        message: "Lawyer approved successfully",
+        lawyer
+      });
+    } catch (err) {
+      next(createError(500, "Internal Server Error"));
+    }
+  };
+
+  static rejectLawyer = async (req, res, next) => {
+    try {
+      const { lawyerId } = req.params;
+      const { reason } = req.body;
+      
+      const lawyer = await lawyerModel.findByIdAndUpdate(
+        lawyerId,
+        { 
+          verificationStatus: 'rejected',
+          rejectionReason: reason || 'Application rejected by admin'
+        },
+        { new: true }
+      );
+      
+      if (!lawyer) {
+        return res.status(404).json({ 
+          success: false, 
+          message: "Lawyer not found" 
+        });
+      }
+      
+      res.status(200).json({
+        success: true,
+        message: "Lawyer rejected successfully",
+        lawyer
+      });
+    } catch (err) {
+      next(createError(500, "Internal Server Error"));
+    }
+  };
+
+  static getVerifiedLawyers = async (req, res, next) => {
+    try {
+      const verifiedLawyers = await lawyerModel.find({ 
+        verificationStatus: 'approved',
+        isVerified: true 
+      }).select('-password');
+      
+      res.status(200).json({
+        success: true,
+        lawyers: verifiedLawyers
+      });
+    } catch (err) {
+      next(createError(500, "Internal Server Error"));
     }
   };
 }

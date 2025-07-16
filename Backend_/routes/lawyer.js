@@ -13,6 +13,13 @@ router.get('/get_all_attorney', lawyerController.getAllLawyers)
 router.get('/:lawyerId/isHired', lawyerController.checkIfHired)
 router.get('/getUser/:id', lawyerController.getLawyer)
 router.get('/status/:email', lawyerController.getLawyerStatus)
+
+// Verification routes
+router.get('/pending', lawyerController.getPendingLawyers)
+router.get('/verified', lawyerController.getVerifiedLawyers)
+router.patch('/approve/:lawyerId', lawyerController.approveLawyer)
+router.patch('/reject/:lawyerId', lawyerController.rejectLawyer)
+
 router.post('/register', emailAndPasswordValidation, validate, lawyerController.registerLawyer);  
 router.delete('/delete/:id',  lawyerController.deleteDocById);  
 router.patch('/update-all-lawyers-status', lawyerController.updateAllLawyersStatus);
