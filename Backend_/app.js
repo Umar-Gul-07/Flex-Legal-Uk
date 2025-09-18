@@ -90,7 +90,7 @@ socket.on('join_chat', ({ chatId, userId, userType }) => {
 });
 
 // ==================== Start Server ====================
-server.listen(port, () => {
+server.listen(3000, () => {
   connect();
-  console.log(`🚀 Server is running with Socket.IO at http://localhost:${port}`);
+  console.log(`🚀 Server is running with Socket.IO at http://localhost:3000`);
 });
