@@ -27,7 +27,7 @@ const io = new Server(server, {
   },
 });
 
-const port = process.env.PORT || 800;
+const port = process.env.PORT || 3000;
 
 // ==================== DB Connection ====================
 const connect = async () => {
