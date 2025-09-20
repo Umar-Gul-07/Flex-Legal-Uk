@@ -49,13 +49,13 @@ app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
 // ==================== Routes ====================
-app.use("/user", user);
-app.use("/lawyer", lawyer);
-app.use("/payments", payment);
-app.use("/auth", authentication);
-app.use("/rating", Rating);
-app.use("/chat", chatRoutes);
-app.use("/messages", messageRoutes);
+app.use("/api/user", user);
+app.use("/api/lawyer", lawyer);
+app.use("/api/payments", payment);
+app.use("/api/auth", authentication);
+app.use("/api/rating", Rating);
+app.use("/api/chat", chatRoutes);
+app.use("/api/messages", messageRoutes);
 
 // ==================== Error Handler ====================
 app.use((err, req, res, next) => {
