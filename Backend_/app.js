@@ -20,11 +20,27 @@ const app = express();
 const server = http.createServer(app);
 
 // ==================== CORS ====================
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3002",
+  process.env.FRONTEND_URL || "http://localhost"
+];
+
 app.use(
   cors({
-    origin: "*", // ⚠️ In production, replace with your frontend URL (e.g., "http://13.60.230.203")
+    origin: function (origin, callback) {
+      // Allow requests with no origin (mobile apps, curl, etc.)
+      if (!origin) return callback(null, true);
+      
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true
   })
 );
 
@@ -67,8 +83,9 @@ const connect = async () => {
 // ==================== Socket.IO ====================
 const io = new Server(server, {
   cors: {
-    origin: "*", // ⚠️ replace with frontend domain in production
+    origin: allowedOrigins,
     methods: ["GET", "POST"],
+    credentials: true
   },
 });
 
